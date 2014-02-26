@@ -28,7 +28,7 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 <#list entity.properties as property>
     <#if property.notNull && complexTypes?seq_contains(property.propertyType)>
     </#if>
- ${property.javaType} ${property.propertyName};
+${property.javaTypePrefix} ${property.javaType} ${property.propertyName};
 </#list>
 
 
@@ -44,6 +44,7 @@ public ${entity.className}() {
         </#list>
     }
     </#if>
+
 
 public ${entity.className}(<#list entity.properties as
 property>${property.javaType} ${property.propertyName}<#if property_has_next>, </#if></#list>) {

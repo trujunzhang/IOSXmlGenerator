@@ -17,7 +17,9 @@
  */
 package de.greenrobot.daogenerator;
 
-/** Model class for an entity's property: a Java property mapped to a data base column. */
+/**
+ * Model class for an entity's property: a Java property mapped to a data base column.
+ */
 public class Property {
 
     public static class PropertyBuilder {
@@ -123,12 +125,15 @@ public class Property {
     private boolean unique;
     private boolean notNull;
 
-    /** Initialized in 2nd pass */
+    /**
+     * Initialized in 2nd pass
+     */
     private String constraints;
 
     private int ordinal;
 
     private String javaType;
+    private String javaTypePrefix;
 
     public Property(Schema schema, Entity entity, PropertyType propertyType, String propertyName) {
         this.schema = schema;
@@ -181,6 +186,11 @@ public class Property {
         return javaType;
     }
 
+
+    public String getJavaTypePrefix() {
+        return javaTypePrefix;
+    }
+
     public int getOrdinal() {
         return ordinal;
     }
@@ -203,8 +213,10 @@ public class Property {
         }
         if (notNull) {
             javaType = schema.mapToJavaTypeNotNull(propertyType);
+            javaTypePrefix = schema.mapToJavaTypePrefixNotNull(propertyType);
         } else {
             javaType = schema.mapToJavaTypeNullable(propertyType);
+            javaTypePrefix = schema.mapToJavaTypePrefixNullable(propertyType);
         }
     }
 

@@ -33,9 +33,15 @@ public class Schema {
     private String defaultJavaPackageDao;
     private String defaultJavaPackageTest;
     private final List<Entity> entities;
+
     private Map<PropertyType, String> propertyToDbType;
     private Map<PropertyType, String> propertyToJavaTypeNotNull;
     private Map<PropertyType, String> propertyToJavaTypeNullable;
+
+    private Map<PropertyType, String> propertyTypeToDbType;
+    private Map<PropertyType, String> propertyTypeToJavaTypeNotNull;
+    private Map<PropertyType, String> propertyTypeToJavaTypeNullable;
+
     private boolean hasKeepSectionsByDefault;
     private boolean useActiveEntitiesByDefault;
 
@@ -44,6 +50,7 @@ public class Schema {
         this.defaultJavaPackage = defaultJavaPackage;
         this.entities = new ArrayList<Entity>();
         initTypeMappings();
+        initPrefixTypeMappings();
     }
 
     public void enableKeepSectionsByDefault() {
@@ -75,7 +82,7 @@ public class Schema {
         propertyToJavaTypeNotNull.put(PropertyType.Long, "long");
         propertyToJavaTypeNotNull.put(PropertyType.Float, "float");
         propertyToJavaTypeNotNull.put(PropertyType.Double, "double");
-        propertyToJavaTypeNotNull.put(PropertyType.String, "@property (nonatomic, copy) NSString");
+        propertyToJavaTypeNotNull.put(PropertyType.String, "NSString");
         propertyToJavaTypeNotNull.put(PropertyType.ByteArray, "byte[]");
         propertyToJavaTypeNotNull.put(PropertyType.Date, "java.util.Date");
 
@@ -87,9 +94,48 @@ public class Schema {
         propertyToJavaTypeNullable.put(PropertyType.Long, "Long");
         propertyToJavaTypeNullable.put(PropertyType.Float, "Float");
         propertyToJavaTypeNullable.put(PropertyType.Double, "Double");
-        propertyToJavaTypeNullable.put(PropertyType.String, "@property (nonatomic, copy) NSString");
+        propertyToJavaTypeNullable.put(PropertyType.String, "NSString");
         propertyToJavaTypeNullable.put(PropertyType.ByteArray, "byte[]");
         propertyToJavaTypeNullable.put(PropertyType.Date, "java.util.Date");
+    }
+
+
+    private void initPrefixTypeMappings() {
+        propertyTypeToDbType = new HashMap<PropertyType, String>();
+        propertyTypeToDbType.put(PropertyType.Boolean, "INTEGER");
+        propertyTypeToDbType.put(PropertyType.Byte, "INTEGER");
+        propertyTypeToDbType.put(PropertyType.Short, "INTEGER");
+        propertyTypeToDbType.put(PropertyType.Int, "INTEGER");
+        propertyTypeToDbType.put(PropertyType.Long, "INTEGER");
+        propertyTypeToDbType.put(PropertyType.Float, "REAL");
+        propertyTypeToDbType.put(PropertyType.Double, "REAL");
+        propertyTypeToDbType.put(PropertyType.String, "TEXT");
+        propertyTypeToDbType.put(PropertyType.ByteArray, "BLOB");
+        propertyTypeToDbType.put(PropertyType.Date, "INTEGER");
+
+        propertyTypeToJavaTypeNotNull = new HashMap<PropertyType, String>();
+        propertyTypeToJavaTypeNotNull.put(PropertyType.Boolean, "boolean");
+        propertyTypeToJavaTypeNotNull.put(PropertyType.Byte, "byte");
+        propertyTypeToJavaTypeNotNull.put(PropertyType.Short, "short");
+        propertyTypeToJavaTypeNotNull.put(PropertyType.Int, "int");
+        propertyTypeToJavaTypeNotNull.put(PropertyType.Long, "long");
+        propertyTypeToJavaTypeNotNull.put(PropertyType.Float, "float");
+        propertyTypeToJavaTypeNotNull.put(PropertyType.Double, "double");
+        propertyTypeToJavaTypeNotNull.put(PropertyType.String, "@property (nonatomic, copy)");
+        propertyTypeToJavaTypeNotNull.put(PropertyType.ByteArray, "byte[]");
+        propertyTypeToJavaTypeNotNull.put(PropertyType.Date, "java.util.Date");
+
+        propertyTypeToJavaTypeNullable = new HashMap<PropertyType, String>();
+        propertyTypeToJavaTypeNullable.put(PropertyType.Boolean, "Boolean");
+        propertyTypeToJavaTypeNullable.put(PropertyType.Byte, "Byte");
+        propertyTypeToJavaTypeNullable.put(PropertyType.Short, "Short");
+        propertyTypeToJavaTypeNullable.put(PropertyType.Int, "Integer");
+        propertyTypeToJavaTypeNullable.put(PropertyType.Long, "Long");
+        propertyTypeToJavaTypeNullable.put(PropertyType.Float, "Float");
+        propertyTypeToJavaTypeNullable.put(PropertyType.Double, "Double");
+        propertyTypeToJavaTypeNullable.put(PropertyType.String, "@property (nonatomic, copy)");
+        propertyTypeToJavaTypeNullable.put(PropertyType.ByteArray, "byte[]");
+        propertyTypeToJavaTypeNullable.put(PropertyType.Date, "java.util.Date");
     }
 
     /**
@@ -114,6 +160,14 @@ public class Schema {
 
     public String mapToDbType(PropertyType propertyType) {
         return mapType(propertyToDbType, propertyType);
+    }
+
+    public String mapToJavaTypePrefixNullable(PropertyType propertyType) {
+        return mapType(propertyTypeToJavaTypeNullable, propertyType);
+    }
+
+    public String mapToJavaTypePrefixNotNull(PropertyType propertyType) {
+        return mapType(propertyTypeToJavaTypeNotNull, propertyType);
     }
 
     public String mapToJavaTypeNullable(PropertyType propertyType) {
