@@ -4,10 +4,8 @@ import org.jdom.*;
 import org.jdom.input.SAXBuilder;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.Iterator;
 
 import de.greenrobot.daogenerator.PropertyType;
 
@@ -16,25 +14,29 @@ public class ElementLister {
 
     private static String pathname = "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen/example.xml";
 
+    static LinkedHashMap<Element, LinkedHashMap<Object, PropertyType>> XM_LELEMET_LINKEDHASHMAP;
+
     public static void main(String[] args1) {
-        HashMap<PropertyType, Object> tagHashMap = getXmlTags(pathname);
+        LinkedHashMap<Object, PropertyType> tagLinkedHashMap = getXmlTags(pathname);
     }
 
-    private static HashMap<PropertyType, Object> getXmlTags(String pathname) {
+    private static LinkedHashMap<Object, PropertyType> getXmlTags(String pathname) {
         SAXBuilder builder = new SAXBuilder();
 
-        HashMap<PropertyType, Object> rootHashMap = new LinkedHashMap<PropertyType, Object>();
+        LinkedHashMap<Object, PropertyType> rootLinkedHashMap = new LinkedHashMap<Object, PropertyType>();
 
+        XM_LELEMET_LINKEDHASHMAP = new LinkedHashMap<Element, LinkedHashMap<Object, PropertyType>>();
 
         try {
             Document doc = builder.build("file://" + pathname);
             Element root = doc.getRootElement();
 
-            HashMap<PropertyType, Object> childHashMap = new LinkedHashMap<PropertyType, Object>();
-            ElementInfo elementInfo = new ElementInfo(root.getName(), childHashMap);
-            rootHashMap.put(PropertyType.Class, elementInfo);
+            LinkedHashMap<Object, PropertyType> childLinkedHashMap = new LinkedHashMap<Object, PropertyType>();
+            ElementInfo elementInfo = new ElementInfo(root.getName(), childLinkedHashMap);
+            rootLinkedHashMap.put(elementInfo, PropertyType.Class);
+            XM_LELEMET_LINKEDHASHMAP.put(root, childLinkedHashMap);
 
-            listChildren(root, 0, childHashMap);
+            listChildren(root, 0);
         } catch (JDOMException e) {
             System.out.println(pathname + " is not well-formed.");
             System.out.println(e.getMessage());
@@ -42,13 +44,13 @@ public class ElementLister {
             System.out.println(e);
         }
 
-        return rootHashMap;
+        return rootLinkedHashMap;
     }
 
 
-    public static void listChildren(Element current, int depth, HashMap<PropertyType, Object> parentHashMap) {
-        String tagName = current.getName();
+    public static void listChildren(Element current, int depth) {
 
+        String tagName = current.getName();
 
         printSpaces(depth, getCurrentTagSize(current));
         System.out.println(tagName);
@@ -57,14 +59,22 @@ public class ElementLister {
         while (iterator.hasNext()) {
             Element child = (Element) iterator.next();
             int size = getCurrentTagSize(child);
+            LinkedHashMap<Object, PropertyType> propertyTypeObjectLinkedHashMap = XM_LELEMET_LINKEDHASHMAP.get(current);
             if (size == 0) {
-                parentHashMap.put(PropertyType.String, child.getName());
+                propertyTypeObjectLinkedHashMap.put(child.getName(), PropertyType.String);
+                printSpaces(depth + 1, getCurrentTagSize(current));
+                System.out.println(child.getName() + "-" + propertyTypeObjectLinkedHashMap.size());
             } else {
-                HashMap<PropertyType, Object> childHashMap = new LinkedHashMap<PropertyType, Object>();
-                ElementInfo elementInfo = new ElementInfo(child.getName(), childHashMap);
-                parentHashMap.put(PropertyType.Class, elementInfo);
+                LinkedHashMap<Object, PropertyType> childLinkedHashMap = new LinkedHashMap<Object, PropertyType>();
+                ElementInfo elementInfo = new ElementInfo(child.getName(), childLinkedHashMap);
 
-                listChildren(child, depth + 1, childHashMap);
+                propertyTypeObjectLinkedHashMap.put(elementInfo, PropertyType.Class);
+
+                XM_LELEMET_LINKEDHASHMAP.put(child, childLinkedHashMap);
+
+                System.out.println("parent-" + propertyTypeObjectLinkedHashMap.size());
+
+                listChildren(child, depth + 1);
             }
 
         }

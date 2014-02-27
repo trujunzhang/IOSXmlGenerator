@@ -11,12 +11,12 @@ public class ElementInfo {
 
     String tagName;
 
-    public ElementInfo(String tagName, HashMap<PropertyType, Object> childHashMap) {
+    public ElementInfo(String tagName, HashMap< Object,PropertyType> childHashMap) {
         this.tagName = tagName;
         this.childHashMap = childHashMap;
     }
 
-    HashMap<PropertyType, Object> childHashMap;
+    HashMap< Object,PropertyType> childHashMap;
 
 
 }
