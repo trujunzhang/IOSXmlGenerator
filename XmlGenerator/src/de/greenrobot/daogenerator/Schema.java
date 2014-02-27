@@ -24,7 +24,7 @@ import java.util.Map;
 
 /**
  * The "root" model class to which you can add entities to.
- * 
+ *
  * @see <a href="http://greendao-orm.com/documentation/modelling-entities/">Modelling Entities (Documentation page)</a>
  */
 public class Schema {
@@ -75,7 +75,7 @@ public class Schema {
         propertyToJavaTypeNotNull.put(PropertyType.Long, "long");
         propertyToJavaTypeNotNull.put(PropertyType.Float, "float");
         propertyToJavaTypeNotNull.put(PropertyType.Double, "double");
-        propertyToJavaTypeNotNull.put(PropertyType.String, "String");
+        propertyToJavaTypeNotNull.put(PropertyType.String, "@property (nonatomic, copy) NSString");
         propertyToJavaTypeNotNull.put(PropertyType.ByteArray, "byte[]");
         propertyToJavaTypeNotNull.put(PropertyType.Date, "java.util.Date");
 
@@ -87,7 +87,7 @@ public class Schema {
         propertyToJavaTypeNullable.put(PropertyType.Long, "Long");
         propertyToJavaTypeNullable.put(PropertyType.Float, "Float");
         propertyToJavaTypeNullable.put(PropertyType.Double, "Double");
-        propertyToJavaTypeNullable.put(PropertyType.String, "String");
+        propertyToJavaTypeNullable.put(PropertyType.String, "@property (nonatomic, copy) NSString");
         propertyToJavaTypeNullable.put(PropertyType.ByteArray, "byte[]");
         propertyToJavaTypeNullable.put(PropertyType.Date, "java.util.Date");
     }

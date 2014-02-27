@@ -17,8 +17,8 @@ You should have received a copy of the GNU General Public License
 along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
-<#assign toBindType = {"Boolean":"Long", "Byte":"Long", "Short":"Long", "Int":"Long", "Long":"Long", "Float":"Double", "Double":"Double", "String":"String", "ByteArray":"Blob" }/>
-<#assign toCursorType = {"Boolean":"Short", "Byte":"Short", "Short":"Short", "Int":"Int", "Long":"Long", "Float":"Float", "Double":"Double", "String":"String", "ByteArray":"Blob" }/>
+<#assign toBindType = {"Boolean":"Long", "Byte":"Long", "Short":"Long", "Int":"Long", "Long":"Long", "Float":"Double", "Double":"Double", "String":"Wanghao", "ByteArray":"Blob" }/>
+<#assign toCursorType = {"Boolean":"Short", "Byte":"Short", "Short":"Short", "Int":"Int", "Long":"Long", "Float":"Float", "Double":"Double", "String":"Wanghao", "ByteArray":"Blob" }/>
 <#assign complexTypes = ["String", "ByteArray", "Date"]/>
 
 #import <Foundation/Foundation.h>
@@ -27,9 +27,8 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 
 <#list entity.properties as property>
     <#if property.notNull && complexTypes?seq_contains(property.propertyType)>
-    /** Not-null value. */
     </#if>
-private ${property.javaType} ${property.propertyName};
+ ${property.javaType} ${property.propertyName};
 </#list>
 
 
