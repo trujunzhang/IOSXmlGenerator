@@ -13,6 +13,7 @@ repositories {
 }
 
 dependencies {
+    compile('jdom:jdom:1.1')
     compile project(':XmlGenerator')
 }
 
