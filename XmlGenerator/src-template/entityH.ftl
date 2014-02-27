@@ -32,32 +32,6 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 private ${property.javaType} ${property.propertyName};
 </#list>
 
-<#if entity.active>
-/** Used to resolve relations */
-private transient DaoSession daoSession;
-
-/** Used for active entity operations. */
-private transient ${entity.classNameDao} myDao;
-
-    <#list entity.toOneRelations as toOne>
-    private ${toOne.targetEntity.className} ${toOne.name};
-        <#if toOne.useFkProperty>
-        private ${toOne.resolvedKeyJavaType[0]} ${toOne.name}__resolvedKey;
-        <#else>
-        private boolean ${toOne.name}__refreshed;
-        </#if>
-
-    </#list>
-    <#list entity.toManyRelations as toMany>
-    private List<${toMany.targetEntity.className}> ${toMany.name};
-    </#list>
-
-</#if>
-<#if entity.hasKeepSections>
-// KEEP FIELDS - put your custom fields here
-${keepFields!}    // KEEP FIELDS END
-
-</#if>
 
 <#if entity.constructors>
 public ${entity.className}() {
