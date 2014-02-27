@@ -33,7 +33,7 @@ import freemarker.template.Template;
 
 /**
  * Once you have your model created, use this class to generate entities and DAOs.
- * 
+ *
  * @author Markus
  */
 public class DaoGenerator {
@@ -62,12 +62,14 @@ public class DaoGenerator {
         config.setClassForTemplateLoading(this.getClass(), "/");
         config.setObjectWrapper(new DefaultObjectWrapper());
 
-        templateDao = config.getTemplate("dao.ftl");
-        templateDaoMaster = config.getTemplate("dao-master.ftl");
-        templateDaoSession = config.getTemplate("dao-session.ftl");
-        templateEntity = config.getTemplate("entity.ftl");
-        templateDaoUnitTest = config.getTemplate("dao-unit-test.ftl");
-        templateContentProvider = config.getTemplate("content-provider.ftl");
+//        templateDao = config.getTemplate("dao.ftl");
+//        templateDaoMaster = config.getTemplate("dao-master.ftl");
+//        templateDaoSession = config.getTemplate("dao-session.ftl");
+
+        templateEntity = config.getTemplate("entityH.ftl");
+
+//        templateDaoUnitTest = config.getTemplate("dao-unit-test.ftl");
+//        templateContentProvider = config.getTemplate("content-provider.ftl");
     }
 
     private Pattern compilePattern(String sectionName) {
@@ -76,12 +78,16 @@ public class DaoGenerator {
                 + " END.*?\n", flags);
     }
 
-    /** Generates all entities and DAOs for the given schema. */
+    /**
+     * Generates all entities and DAOs for the given schema.
+     */
     public void generateAll(Schema schema, String outDir) throws Exception {
         generateAll(schema, outDir, null);
     }
 
-    /** Generates all entities and DAOs for the given schema. */
+    /**
+     * Generates all entities and DAOs for the given schema.
+     */
     public void generateAll(Schema schema, String outDir, String outDirTest) throws Exception {
         long start = System.currentTimeMillis();
 
@@ -137,12 +143,12 @@ public class DaoGenerator {
     }
 
     private void generate(Template template, File outDirFile, String javaPackage, String javaClassName, Schema schema,
-            Entity entity) throws Exception {
+                          Entity entity) throws Exception {
         generate(template, outDirFile, javaPackage, javaClassName, schema, entity, null);
     }
 
     private void generate(Template template, File outDirFile, String javaPackage, String javaClassName, Schema schema,
-            Entity entity, Map<String, Object> additionalObjectsForTemplate) throws Exception {
+                          Entity entity, Map<String, Object> additionalObjectsForTemplate) throws Exception {
         Map<String, Object> root = new HashMap<String, Object>();
         root.put("schema", schema);
         root.put("entity", entity);
@@ -150,7 +156,7 @@ public class DaoGenerator {
             root.putAll(additionalObjectsForTemplate);
         }
         try {
-            File file = toJavaFilename(outDirFile, javaPackage, javaClassName);
+            File file = toJavaFilename(outDirFile, javaPackage, javaClassName, "h");
             file.getParentFile().mkdirs();
 
             if (entity != null && entity.getHasKeepSections()) {
@@ -200,10 +206,10 @@ public class DaoGenerator {
         }
     }
 
-    protected File toJavaFilename(File outDirFile, String javaPackage, String javaClassName) {
+    protected File toJavaFilename(File outDirFile, String javaPackage, String javaClassName, String extension) {
         String packageSubPath = javaPackage.replace('.', '/');
         File packagePath = new File(outDirFile, packageSubPath);
-        File file = new File(packagePath, javaClassName + ".java");
+        File file = new File(packagePath, javaClassName + "." + extension);
         return file;
     }
 
