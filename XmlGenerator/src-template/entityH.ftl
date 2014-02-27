@@ -21,7 +21,8 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 <#assign toCursorType = {"Boolean":"Short", "Byte":"Short", "Short":"Short", "Int":"Int", "Long":"Long", "Float":"Float", "Double":"Double", "String":"Wanghao", "ByteArray":"Blob" }/>
 <#assign complexTypes = ["String", "ByteArray", "Date"]/>
 
-#import <Foundation/Foundation.h>
+#import
+<Foundation/Foundation.h>
 
 @interface ${entity.className} : NSObject
 
@@ -33,25 +34,11 @@ ${property.javaTypePrefix} ${property.javaType} ${property.propertyName};
 
 
 <#if entity.constructors>
-public ${entity.className}() {
-}
-    <#if entity.propertiesPk?has_content && entity.propertiesPk?size != entity.properties?size>
+- (id)initWithName:(NSString *)name level:(int)level rpgClass:(RPGClass)rpgClass;
 
-    public ${entity.className}(<#list entity.propertiesPk as
-    property>${property.javaType} ${property.propertyName}<#if property_has_next>, </#if></#list>) {
-        <#list entity.propertiesPk as property>
-        this.${property.propertyName} = ${property.propertyName};
-        </#list>
-    }
-    </#if>
+- (id)<#list entity.properties as property><#if property_index==0>init<#else>${property.propertyName}</#if>:(${property.javaType} *)${property.propertyName}<#if property_has_next> </#if></#list>;
 
 
-public ${entity.className}(<#list entity.properties as
-property>${property.javaType} ${property.propertyName}<#if property_has_next>, </#if></#list>) {
-    <#list entity.properties as property>
-    this.${property.propertyName} = ${property.propertyName};
-    </#list>
-}
 </#if>
 
 
