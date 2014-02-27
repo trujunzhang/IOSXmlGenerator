@@ -1,0 +1,17 @@
+<loginHelper>
+    <script id="tinyhippos-injected"/>
+    <total>0</total>
+    <sysStaff>
+        <staff_id>SF201402211407351007</staff_id>
+        <staff_number>admin</staff_number>
+        <staff_name>管理员</staff_name>
+        <mobilephone_number>13511585306</mobilephone_number>
+        <sex>0</sex>
+        <is_binding>1</is_binding>
+        <password>f6c1b7489bc6ac8e1d035a5e986c4c94</password>
+        <is_effective>1</is_effective>
+        <mobile_login>0</mobile_login>
+        <web_login>0</web_login>
+        <enterprise_id>EP201402211407351003</enterprise_id>
+    </sysStaff>
+</loginHelper>

@@ -45,7 +45,8 @@ public class DaoGenerator {
     private Template templateDao;
     private Template templateDaoMaster;
     private Template templateDaoSession;
-    private Template templateEntity;
+    private Template templateEntityH;
+    private Template templateEntityM;
     private Template templateDaoUnitTest;
     private Template templateContentProvider;
 
@@ -66,7 +67,8 @@ public class DaoGenerator {
 //        templateDaoMaster = config.getTemplate("dao-master.ftl");
 //        templateDaoSession = config.getTemplate("dao-session.ftl");
 
-        templateEntity = config.getTemplate("entityH.ftl");
+        templateEntityH = config.getTemplate("entityH.ftl");
+        templateEntityM = config.getTemplate("entityM.ftl");
 
 //        templateDaoUnitTest = config.getTemplate("dao-unit-test.ftl");
 //        templateContentProvider = config.getTemplate("content-provider.ftl");
@@ -107,7 +109,8 @@ public class DaoGenerator {
         for (Entity entity : entities) {
 //            generate(templateDao, outDirFile, entity.getJavaPackageDao(), entity.getClassNameDao(), schema, entity);
             if (!entity.isProtobuf() && !entity.isSkipGeneration()) {
-                generate(templateEntity, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity);
+                generate(templateEntityH, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "h");
+                generate(templateEntityM, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "m");
             }
 //            if (outDirTestFile != null && !entity.isSkipGenerationTest()) {
 //                String javaPackageTest = entity.getJavaPackageTest();
@@ -143,12 +146,12 @@ public class DaoGenerator {
     }
 
     private void generate(Template template, File outDirFile, String javaPackage, String javaClassName, Schema schema,
-                          Entity entity) throws Exception {
-        generate(template, outDirFile, javaPackage, javaClassName, schema, entity, null);
+                          Entity entity, String extension) throws Exception {
+        generate(template, outDirFile, javaPackage, javaClassName, schema, entity, null,extension);
     }
 
     private void generate(Template template, File outDirFile, String javaPackage, String javaClassName, Schema schema,
-                          Entity entity, Map<String, Object> additionalObjectsForTemplate) throws Exception {
+                          Entity entity, Map<String, Object> additionalObjectsForTemplate, String extension) throws Exception {
         Map<String, Object> root = new HashMap<String, Object>();
         root.put("schema", schema);
         root.put("entity", entity);
@@ -156,7 +159,7 @@ public class DaoGenerator {
             root.putAll(additionalObjectsForTemplate);
         }
         try {
-            File file = toJavaFilename(outDirFile, javaPackage, javaClassName, "h");
+            File file = toJavaFilename(outDirFile, javaPackage, javaClassName, extension);
             file.getParentFile().mkdirs();
 
             if (entity != null && entity.getHasKeepSections()) {

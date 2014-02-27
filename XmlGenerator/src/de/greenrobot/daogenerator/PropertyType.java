@@ -19,9 +19,9 @@ package de.greenrobot.daogenerator;
 
 /**
  * Currently available types for properties.
- * 
+ *
  * @author Markus
  */
 public enum PropertyType {
-    Byte, Short, Int, Long, Boolean, Float, Double, String, ByteArray, Date
+    Byte, Short, Int, Long, Boolean, Float, Double, String, ByteArray, Date, Class
 }
