@@ -73,6 +73,7 @@ public class Schema {
         propertyToDbType.put(PropertyType.String, "TEXT");
         propertyToDbType.put(PropertyType.ByteArray, "BLOB");
         propertyToDbType.put(PropertyType.Date, "INTEGER");
+        propertyToDbType.put(PropertyType.Class, "TEXT");
 
         propertyToJavaTypeNotNull = new HashMap<PropertyType, String>();
         propertyToJavaTypeNotNull.put(PropertyType.Boolean, "boolean");
@@ -82,9 +83,11 @@ public class Schema {
         propertyToJavaTypeNotNull.put(PropertyType.Long, "long");
         propertyToJavaTypeNotNull.put(PropertyType.Float, "float");
         propertyToJavaTypeNotNull.put(PropertyType.Double, "double");
-        propertyToJavaTypeNotNull.put(PropertyType.String, "NSString");
         propertyToJavaTypeNotNull.put(PropertyType.ByteArray, "byte[]");
         propertyToJavaTypeNotNull.put(PropertyType.Date, "java.util.Date");
+
+        propertyToJavaTypeNotNull.put(PropertyType.String, "NSString");// djzhang
+        propertyToJavaTypeNotNull.put(PropertyType.Class, "NSObject");// djzhang
 
         propertyToJavaTypeNullable = new HashMap<PropertyType, String>();
         propertyToJavaTypeNullable.put(PropertyType.Boolean, "Boolean");
@@ -94,9 +97,11 @@ public class Schema {
         propertyToJavaTypeNullable.put(PropertyType.Long, "Long");
         propertyToJavaTypeNullable.put(PropertyType.Float, "Float");
         propertyToJavaTypeNullable.put(PropertyType.Double, "Double");
-        propertyToJavaTypeNullable.put(PropertyType.String, "NSString");
         propertyToJavaTypeNullable.put(PropertyType.ByteArray, "byte[]");
         propertyToJavaTypeNullable.put(PropertyType.Date, "java.util.Date");
+
+        propertyToJavaTypeNullable.put(PropertyType.String, "NSString");// djzhang
+        propertyToJavaTypeNullable.put(PropertyType.Class, "NSObject");// djzhang
     }
 
 
@@ -121,9 +126,11 @@ public class Schema {
         propertyTypeToJavaTypeNotNull.put(PropertyType.Long, "long");
         propertyTypeToJavaTypeNotNull.put(PropertyType.Float, "float");
         propertyTypeToJavaTypeNotNull.put(PropertyType.Double, "double");
-        propertyTypeToJavaTypeNotNull.put(PropertyType.String, "@property (nonatomic, copy)");
         propertyTypeToJavaTypeNotNull.put(PropertyType.ByteArray, "byte[]");
         propertyTypeToJavaTypeNotNull.put(PropertyType.Date, "java.util.Date");
+
+        propertyTypeToJavaTypeNotNull.put(PropertyType.String, "@property (nonatomic, copy)");// djzhang
+        propertyTypeToJavaTypeNotNull.put(PropertyType.Class, "@property (nonatomic, assign)");// djzhang
 
         propertyTypeToJavaTypeNullable = new HashMap<PropertyType, String>();
         propertyTypeToJavaTypeNullable.put(PropertyType.Boolean, "Boolean");
@@ -133,9 +140,11 @@ public class Schema {
         propertyTypeToJavaTypeNullable.put(PropertyType.Long, "Long");
         propertyTypeToJavaTypeNullable.put(PropertyType.Float, "Float");
         propertyTypeToJavaTypeNullable.put(PropertyType.Double, "Double");
-        propertyTypeToJavaTypeNullable.put(PropertyType.String, "@property (nonatomic, copy)");
         propertyTypeToJavaTypeNullable.put(PropertyType.ByteArray, "byte[]");
         propertyTypeToJavaTypeNullable.put(PropertyType.Date, "java.util.Date");
+
+        propertyTypeToJavaTypeNullable.put(PropertyType.String, "@property (nonatomic, copy)");// djzhang
+        propertyTypeToJavaTypeNullable.put(PropertyType.Class, "@property (nonatomic, assign)");// djzhang
     }
 
     /**

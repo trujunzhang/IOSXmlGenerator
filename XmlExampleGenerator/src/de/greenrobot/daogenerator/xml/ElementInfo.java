@@ -1,6 +1,8 @@
 package de.greenrobot.daogenerator.xml;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 
 import de.greenrobot.daogenerator.PropertyType;
 
@@ -9,14 +11,14 @@ import de.greenrobot.daogenerator.PropertyType;
  */
 public class ElementInfo {
 
-    String tagName;
+    public String tagName;
+    public LinkedHashMap<Object, PropertyType> childHashMap;
 
-    public ElementInfo(String tagName, HashMap< Object,PropertyType> childHashMap) {
+
+    public ElementInfo(String tagName, LinkedHashMap<Object, PropertyType> childHashMap) {
         this.tagName = tagName;
         this.childHashMap = childHashMap;
     }
-
-    HashMap< Object,PropertyType> childHashMap;
 
 
 }

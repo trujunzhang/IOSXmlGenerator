@@ -21,6 +21,19 @@ import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
 import de.greenrobot.daogenerator.ToMany;
 
+import org.jdom.*;
+import org.jdom.input.SAXBuilder;
+
+import java.io.IOException;
+import java.util.Collection;
+import java.util.LinkedHashMap;
+import java.util.Iterator;
+import java.util.Set;
+
+import de.greenrobot.daogenerator.PropertyType;
+import de.greenrobot.daogenerator.xml.ElementLister;
+import de.greenrobot.daogenerator.xml.ElementInfo;
+
 /**
  * Generates entities and DAOs for the example project DaoExample.
  * <p/>
@@ -30,14 +43,39 @@ import de.greenrobot.daogenerator.ToMany;
  */
 public class ExampleDaoGenerator {
 
+    private static String pathname = "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen/example.xml";
+
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(3, "");
 
-        addNote(schema);
-//        addCustomerOrder(schema);
+        ElementInfo elementInfo = ElementLister.getXmlTags(pathname);
+        if (elementInfo != null) {
+            generateNode(elementInfo, schema);
+        }
 
         new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
+
+    private static void generateNode(ElementInfo parentInfo, Schema schema) {
+        Entity note = schema.addEntity(parentInfo.tagName);
+
+        LinkedHashMap<Object, PropertyType> childHashMap = parentInfo.childHashMap;
+
+        Set<Object> sets = childHashMap.keySet();
+        Iterator iterator = sets.iterator();
+        while (iterator.hasNext()) {
+            Object key = iterator.next();
+            PropertyType value = childHashMap.get(key);
+            if (value.equals(PropertyType.Class)) {
+                ElementInfo elementInfo = (ElementInfo) key;
+                note.addClassProperty(elementInfo.tagName);
+                generateNode(elementInfo, schema);
+            } else if (value.equals(PropertyType.String)) {
+                note.addStringProperty((String) key);
+            }
+        }
+    }
+
 
     private static void addNote(Schema schema) {
         Entity note = schema.addEntity("Note");

@@ -17,13 +17,11 @@ public class ElementLister {
     static LinkedHashMap<Element, LinkedHashMap<Object, PropertyType>> XM_LELEMET_LINKEDHASHMAP;
 
     public static void main(String[] args1) {
-        LinkedHashMap<Object, PropertyType> tagLinkedHashMap = getXmlTags(pathname);
+        getXmlTags(pathname);
     }
 
-    private static LinkedHashMap<Object, PropertyType> getXmlTags(String pathname) {
+    public static ElementInfo getXmlTags(String pathname) {
         SAXBuilder builder = new SAXBuilder();
-
-        LinkedHashMap<Object, PropertyType> rootLinkedHashMap = new LinkedHashMap<Object, PropertyType>();
 
         XM_LELEMET_LINKEDHASHMAP = new LinkedHashMap<Element, LinkedHashMap<Object, PropertyType>>();
 
@@ -33,10 +31,12 @@ public class ElementLister {
 
             LinkedHashMap<Object, PropertyType> childLinkedHashMap = new LinkedHashMap<Object, PropertyType>();
             ElementInfo elementInfo = new ElementInfo(root.getName(), childLinkedHashMap);
-            rootLinkedHashMap.put(elementInfo, PropertyType.Class);
+
             XM_LELEMET_LINKEDHASHMAP.put(root, childLinkedHashMap);
 
             listChildren(root, 0);
+
+            return elementInfo;
         } catch (JDOMException e) {
             System.out.println(pathname + " is not well-formed.");
             System.out.println(e.getMessage());
@@ -44,7 +44,7 @@ public class ElementLister {
             System.out.println(e);
         }
 
-        return rootLinkedHashMap;
+        return null;
     }
 
 

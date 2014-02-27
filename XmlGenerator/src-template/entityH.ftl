@@ -34,11 +34,7 @@ ${property.javaTypePrefix} ${property.javaType} ${property.propertyName};
 
 
 <#if entity.constructors>
-- (id)initWithName:(NSString *)name level:(int)level rpgClass:(RPGClass)rpgClass;
-
 - (id)<#list entity.properties as property><#if property_index==0>init<#else>${property.propertyName}</#if>:(${property.javaType} *)${property.propertyName}<#if property_has_next> </#if></#list>;
-
-
 </#if>
 
 

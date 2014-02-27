@@ -122,6 +122,10 @@ public class Entity {
         return addProperty(PropertyType.String, propertyName);
     }
 
+    public PropertyBuilder addClassProperty(String propertyName) {
+        return addProperty(PropertyType.Class, propertyName);
+    }
+
     public PropertyBuilder addDateProperty(String propertyName) {
         return addProperty(PropertyType.Date, propertyName);
     }
@@ -135,14 +139,18 @@ public class Entity {
         return builder;
     }
 
-    /** Adds a standard _id column required by standard Android classes, e.g. list adapters. */
+    /**
+     * Adds a standard _id column required by standard Android classes, e.g. list adapters.
+     */
     public PropertyBuilder addIdProperty() {
         PropertyBuilder builder = addLongProperty("id");
         builder.columnName("_id").primaryKey();
         return builder;
     }
 
-    /** Adds a to-many relationship; the target entity is joined to the PK property of this entity (typically the ID). */
+    /**
+     * Adds a to-many relationship; the target entity is joined to the PK property of this entity (typically the ID).
+     */
     public ToMany addToMany(Entity target, Property targetProperty) {
         Property[] targetProperties = {targetProperty};
         return addToMany(null, target, targetProperties);
@@ -194,7 +202,9 @@ public class Entity {
         return toOne;
     }
 
-    /** Convenience for {@link #addToOne(Entity, Property)} with a subsequent call to {@link ToOne#setName(String)}. */
+    /**
+     * Convenience for {@link #addToOne(Entity, Property)} with a subsequent call to {@link ToOne#setName(String)}.
+     */
     public ToOne addToOne(Entity target, Property fkProperty, String name) {
         ToOne toOne = addToOne(target, fkProperty);
         toOne.setName(name);
@@ -234,13 +244,17 @@ public class Entity {
         return contentProvider;
     }
 
-    /** Adds a new index to the entity. */
+    /**
+     * Adds a new index to the entity.
+     */
     public Entity addIndex(Index index) {
         indexes.add(index);
         return this;
     }
 
-    /** The entity is represented by a protocol buffers object. Requires some special actions like using builders. */
+    /**
+     * The entity is represented by a protocol buffers object. Requires some special actions like using builders.
+     */
     Entity useProtobuf() {
         protobuf = true;
         return this;
@@ -354,7 +368,9 @@ public class Entity {
         this.skipGeneration = skipGeneration;
     }
 
-    /** Flag if CREATE & DROP TABLE scripts should be skipped in Dao. */
+    /**
+     * Flag if CREATE & DROP TABLE scripts should be skipped in Dao.
+     */
     public void setSkipTableCreation(boolean skipTableCreation) {
         this.skipTableCreation = skipTableCreation;
     }
