@@ -21,6 +21,7 @@ import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
 import de.greenrobot.daogenerator.ToMany;
 
+import de.greenrobot.daogenerator.utils.StringUtils;
 import org.jdom.*;
 import org.jdom.input.SAXBuilder;
 
@@ -58,7 +59,6 @@ public class ExampleDaoGenerator {
 
     private static Entity generateNode(ElementInfo parentInfo, Schema schema) {
         Entity note = schema.addEntity(parentInfo.tagName);
-        note.addIdProperty();
 
         LinkedHashMap<Object, PropertyType> childHashMap = parentInfo.childHashMap;
 
@@ -68,14 +68,11 @@ public class ExampleDaoGenerator {
             Object key = iterator.next();
             PropertyType value = childHashMap.get(key);
             if (value.equals(PropertyType.Class)) {
+
                 ElementInfo elementInfo = (ElementInfo) key;
                 Entity childNote = generateNode(elementInfo, schema);
 
-                String propertyName = childNote.getClassName().toLowerCase() + "Id";
-                Property customerId = note.addLongProperty(propertyName).notNull().getProperty();
-                note.addToOne(childNote, customerId);
-
-
+                note.addToOne(childNote, null);
             } else if (value.equals(PropertyType.String)) {
                 note.addStringProperty((String) key);
             }
@@ -83,30 +80,5 @@ public class ExampleDaoGenerator {
         return note;
     }
 
-
-    private static void addNote(Schema schema) {
-        Entity note = schema.addEntity("Note");
-//        note.addIdProperty();
-        note.addStringProperty("text").notNull();
-        note.addStringProperty("comment");
-        note.addStringProperty("date");
-    }
-
-    private static void addCustomerOrder(Schema schema) {
-        Entity customer = schema.addEntity("Customer");
-        customer.addIdProperty();
-        customer.addStringProperty("name").notNull();
-
-        Entity order = schema.addEntity("Order");
-        order.setTableName("ORDERS"); // "ORDER" is a reserved keyword
-        order.addIdProperty();
-        Property orderDate = order.addDateProperty("date").getProperty();
-        Property customerId = order.addLongProperty("customerId").notNull().getProperty();
-        order.addToOne(customer, customerId);
-
-        ToMany customerToOrders = customer.addToMany(order, customerId);
-        customerToOrders.setName("orders");
-        customerToOrders.orderAsc(orderDate);
-    }
 
 }

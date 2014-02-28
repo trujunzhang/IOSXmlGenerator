@@ -102,8 +102,12 @@ public class Entity {
         return addProperty(PropertyType.Int, propertyName);
     }
 
+    public PropertyBuilder addLongProperty() {
+        return addProperty(PropertyType.Long, "", false);
+    }
+
     public PropertyBuilder addLongProperty(String propertyName) {
-        return addProperty(PropertyType.Long, propertyName);
+        return addProperty(PropertyType.Long, propertyName, false);
     }
 
     public PropertyBuilder addFloatProperty(String propertyName) {
@@ -131,11 +135,17 @@ public class Entity {
     }
 
     public PropertyBuilder addProperty(PropertyType propertyType, String propertyName) {
+        return addProperty(propertyType, propertyName, true);
+    }
+
+    public PropertyBuilder addProperty(PropertyType propertyType, String propertyName, boolean add) {
         if (!propertyNames.add(propertyName)) {
             throw new RuntimeException("Property already defined: " + propertyName);
         }
         PropertyBuilder builder = new Property.PropertyBuilder(schema, this, propertyType, propertyName);
-        properties.add(builder.getProperty());
+        if (add) {
+            properties.add(builder.getProperty());
+        }
         return builder;
     }
 
@@ -572,7 +582,7 @@ public class Entity {
     private void init3rdPassRelations() {
         Set<String> toOneNames = new HashSet<String>();
         for (ToOne toOne : toOneRelations) {
-            toOne.init3ndPass();
+//            toOne.init3ndPass();
             if (!toOneNames.add(toOne.getName().toLowerCase())) {
                 throw new RuntimeException("Duplicate name for " + toOne);
             }
