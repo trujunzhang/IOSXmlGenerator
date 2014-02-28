@@ -21,33 +21,31 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 <#assign toCursorType = {"Boolean":"Short", "Byte":"Short", "Short":"Short", "Int":"Int", "Long":"Long", "Float":"Float", "Double":"Double", "String":"Wanghao", "ByteArray":"Blob" }/>
 <#assign complexTypes = ["String", "ByteArray", "Date"]/>
 
-#import
-<Foundation/Foundation.h>
+#import <Foundation/Foundation.h>
+<#if entity.active>
+    <#list entity.toOneRelations as toOne>
+#import "${toOne.targetEntity.className}.h"
+    </#list>
+</#if>
 
 @interface ${entity.className} : NSObject
 
 <#list entity.properties as property>
-    <#if property.notNull && complexTypes?seq_contains(property.propertyType)>
-    </#if>
-${property.javaTypePrefix} ${property.javaType} *${property.propertyName};
+    <#if property.notNull && complexTypes?seq_contains(property.propertyType)></#if>
+    ${property.javaTypePrefix} ${property.javaType} *${property.propertyName};
 </#list>
 
-
 <#if entity.active>
-
     <#list entity.toOneRelations as toOne>
-    private ${toOne.targetEntity.className} ${toOne.name};
+    @property (nonatomic, assign) ${toOne.targetEntity.className} *${toOne.name};
     </#list>
-
     <#list entity.toManyRelations as toMany>
-    private List<${toMany.targetEntity.className}> ${toMany.name};
+    @property (nonatomic, retain) NSMutableArray *${toMany.name};
     </#list>
-
 </#if>
 
-
 <#if entity.constructors>
-- (id)<#list entity.properties as property><#if property_index==0>init<#else>${property.propertyName}</#if>:(${property.javaType} *)${property.propertyName}<#if property_has_next> </#if></#list>;
+    - (id)<#list entity.properties as property><#if property_index==0>init<#else>${property.propertyName}</#if>:(${property.javaType} *)${property.propertyName}<#if property_has_next> </#if></#list>;
 </#if>
 
 @end;
