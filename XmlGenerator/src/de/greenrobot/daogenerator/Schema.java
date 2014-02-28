@@ -73,7 +73,7 @@ public class Schema {
         propertyToDbType.put(PropertyType.String, "TEXT");
         propertyToDbType.put(PropertyType.ByteArray, "BLOB");
         propertyToDbType.put(PropertyType.Date, "INTEGER");
-        propertyToDbType.put(PropertyType.Class, "TEXT");
+//        propertyToDbType.put(PropertyType.Class, "TEXT");
 
         propertyToJavaTypeNotNull = new HashMap<PropertyType, String>();
         propertyToJavaTypeNotNull.put(PropertyType.Boolean, "boolean");
@@ -101,7 +101,7 @@ public class Schema {
         propertyToJavaTypeNullable.put(PropertyType.Date, "java.util.Date");
 
         propertyToJavaTypeNullable.put(PropertyType.String, "NSString");// djzhang
-        propertyToJavaTypeNullable.put(PropertyType.Class, "NSObject");// djzhang
+        propertyToJavaTypeNullable.put(PropertyType.Class, "NSObject123");// djzhang
     }
 
 
@@ -168,6 +168,9 @@ public class Schema {
     }
 
     public String mapToDbType(PropertyType propertyType) {
+        if (propertyType.equals(PropertyType.Class)) {
+            return "wanghao";
+        }
         return mapType(propertyToDbType, propertyType);
     }
 
@@ -180,6 +183,9 @@ public class Schema {
     }
 
     public String mapToJavaTypeNullable(PropertyType propertyType) {
+        if (propertyType.equals(PropertyType.Class)) {
+            return "wanghao123";
+        }
         return mapType(propertyToJavaTypeNullable, propertyType);
     }
 

@@ -56,8 +56,9 @@ public class ExampleDaoGenerator {
         new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
 
-    private static void generateNode(ElementInfo parentInfo, Schema schema) {
+    private static Entity generateNode(ElementInfo parentInfo, Schema schema) {
         Entity note = schema.addEntity(parentInfo.tagName);
+        note.addIdProperty();
 
         LinkedHashMap<Object, PropertyType> childHashMap = parentInfo.childHashMap;
 
@@ -68,12 +69,18 @@ public class ExampleDaoGenerator {
             PropertyType value = childHashMap.get(key);
             if (value.equals(PropertyType.Class)) {
                 ElementInfo elementInfo = (ElementInfo) key;
-                note.addClassProperty(elementInfo.tagName);
-                generateNode(elementInfo, schema);
+                Entity childNote = generateNode(elementInfo, schema);
+
+                String propertyName = childNote.getClassName().toLowerCase() + "Id";
+                Property customerId = note.addLongProperty(propertyName).notNull().getProperty();
+                note.addToOne(childNote, customerId);
+
+
             } else if (value.equals(PropertyType.String)) {
                 note.addStringProperty((String) key);
             }
         }
+        return note;
     }
 
 
