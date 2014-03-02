@@ -123,6 +123,21 @@ public class Entity {
         return addProperty(PropertyType.ByteArray, propertyName);
     }
 
+    public PropertyBuilder addStringProperty(String propertyName, String propertyValue) {
+        return addProperty(PropertyType.String, propertyName, propertyValue, true);
+    }
+
+    public PropertyBuilder addProperty(PropertyType propertyType, String propertyName, String propertyValue, boolean add) {
+        if (!propertyNames.add(propertyName)) {
+            throw new RuntimeException("Property already defined: " + propertyName);
+        }
+        PropertyBuilder builder = new Property.PropertyBuilder(schema, this, propertyType, propertyName, propertyValue);
+        if (add) {
+            properties.add(builder.getProperty());
+        }
+        return builder;
+    }
+
     public PropertyBuilder addStringProperty(String propertyName) {
         return addProperty(PropertyType.String, propertyName);
     }
@@ -647,4 +662,6 @@ public class Entity {
     public String toString() {
         return "Entity " + className + " (package: " + javaPackage + ")";
     }
+
+
 }

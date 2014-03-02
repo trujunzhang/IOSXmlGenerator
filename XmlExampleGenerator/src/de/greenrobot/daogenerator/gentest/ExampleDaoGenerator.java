@@ -75,7 +75,7 @@ public class ExampleDaoGenerator {
                     while (keyIterator.hasNext()) {
                         String tagKey = (String) keyIterator.next();
                         String tagValue = (String) tagHashMap.get(tagKey);
-                        note.addStringProperty(tagKey);
+                        note.addStringProperty(tagKey, tagValue);
                     }
                 }
 

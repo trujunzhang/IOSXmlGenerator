@@ -22,8 +22,13 @@ package de.greenrobot.daogenerator;
  */
 public class Property {
 
+
     public static class PropertyBuilder {
         private final Property property;
+
+        public PropertyBuilder(Schema schema, Entity entity, PropertyType propertyType, String propertyName, String propertyValue) {
+            property = new Property(schema, entity, propertyType, propertyName, propertyValue);
+        }
 
         public PropertyBuilder(Schema schema, Entity entity, PropertyType propertyType, String propertyName) {
             property = new Property(schema, entity, propertyType, propertyName);
@@ -134,6 +139,15 @@ public class Property {
 
     private String javaType;
     private String javaTypePrefix;
+    private String javaValue;
+
+    public Property(Schema schema, Entity entity, PropertyType propertyType, String propertyName, String propertyValue) {
+        this.schema = schema;
+        this.entity = entity;
+        this.propertyName = propertyName;
+        this.propertyType = propertyType;
+        this.javaValue = propertyValue;
+    }
 
     public Property(Schema schema, Entity entity, PropertyType propertyType, String propertyName) {
         this.schema = schema;
@@ -189,6 +203,10 @@ public class Property {
 
     public String getJavaTypePrefix() {
         return javaTypePrefix;
+    }
+
+    public String getJavaValue() {
+        return javaValue;
     }
 
     public int getOrdinal() {
