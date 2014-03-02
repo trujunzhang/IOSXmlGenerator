@@ -15,6 +15,7 @@
  */
 package de.greenrobot.daogenerator.gentest;
 
+import de.greenrobo.utils.StringUtils;
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Schema;
@@ -41,7 +42,8 @@ public class ExampleDaoGenerator {
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(3, "");
 
-        ElementInfo elementInfo = ElementLister.getXmlTags(pathname);
+        String[] ignorTags = {"script"};
+        ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(pathname);
         if (elementInfo != null) {
             generateNode(elementInfo, schema);
         }
@@ -66,7 +68,17 @@ public class ExampleDaoGenerator {
 
                 note.addToOne(childNote, null);
             } else if (value.equals(PropertyType.String)) {
-                note.addStringProperty((String) key);
+                LinkedHashMap<String, String> tagHashMap = (LinkedHashMap<String, String>) key;
+                if (tagHashMap.size() == 1) {
+                    Set<String> tagSets = tagHashMap.keySet();
+                    Iterator keyIterator = tagSets.iterator();
+                    while (keyIterator.hasNext()) {
+                        String tagKey = (String) keyIterator.next();
+                        String tagValue = (String) tagHashMap.get(tagKey);
+                        note.addStringProperty(tagKey);
+                    }
+                }
+
             }
         }
         return note;

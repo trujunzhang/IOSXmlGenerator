@@ -12,15 +12,17 @@ import de.greenrobot.daogenerator.PropertyType;
 
 public class ElementLister {
 
+    private String[] ignorTags;
+
+    public ElementLister(String[] ignorTags) {
+        this.ignorTags = ignorTags;
+    }
+
     private static String pathname = "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen/example.xml";
 
     static LinkedHashMap<Element, LinkedHashMap<Object, PropertyType>> XM_LELEMET_LINKEDHASHMAP;
 
-    public static void main(String[] args1) {
-        getXmlTags(pathname);
-    }
-
-    public static ElementInfo getXmlTags(String pathname) {
+    public ElementInfo getXmlTags(String pathname) {
         SAXBuilder builder = new SAXBuilder();
 
         XM_LELEMET_LINKEDHASHMAP = new LinkedHashMap<Element, LinkedHashMap<Object, PropertyType>>();
@@ -48,7 +50,7 @@ public class ElementLister {
     }
 
 
-    public static void listChildren(Element current, int depth) {
+    private void listChildren(Element current, int depth) {
 
         String tagName = current.getName();
 
@@ -61,9 +63,15 @@ public class ElementLister {
             int size = getCurrentTagSize(child);
             LinkedHashMap<Object, PropertyType> propertyTypeObjectLinkedHashMap = XM_LELEMET_LINKEDHASHMAP.get(current);
             if (size == 0) {
-                propertyTypeObjectLinkedHashMap.put(child.getName(), PropertyType.String);
-                printSpaces(depth + 1, getCurrentTagSize(current));
-                System.out.println(child.getName() + "-" + propertyTypeObjectLinkedHashMap.size());
+                String key = child.getName();
+                if (isIgnorTages(key) == false) {
+                    String value = child.getValue();
+                    LinkedHashMap<String, String> tagHashMap = new LinkedHashMap<String, String>();
+                    tagHashMap.put(key, value);
+                    propertyTypeObjectLinkedHashMap.put(tagHashMap, PropertyType.String);
+                    printSpaces(depth + 1, getCurrentTagSize(current));
+                    System.out.println(child.getName() + "-" + propertyTypeObjectLinkedHashMap.size());
+                }
             } else {
                 LinkedHashMap<Object, PropertyType> childLinkedHashMap = new LinkedHashMap<Object, PropertyType>();
                 ElementInfo elementInfo = new ElementInfo(child.getName(), childLinkedHashMap);
@@ -79,6 +87,15 @@ public class ElementLister {
 
         }
 
+    }
+
+    private boolean isIgnorTages(String key) {
+        for (int i = 0; i < ignorTags.length; i++) {
+            if (ignorTags[i].equals(key)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static int getCurrentTagSize(Element children) {
