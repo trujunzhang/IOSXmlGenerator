@@ -139,14 +139,14 @@ public class Property {
 
     private String javaType;
     private String javaTypePrefix;
-    private String javaValue;
+    private String propertyValue;
 
     public Property(Schema schema, Entity entity, PropertyType propertyType, String propertyName, String propertyValue) {
         this.schema = schema;
         this.entity = entity;
         this.propertyName = propertyName;
         this.propertyType = propertyType;
-        this.javaValue = propertyValue;
+        this.propertyValue = propertyValue;
     }
 
     public Property(Schema schema, Entity entity, PropertyType propertyType, String propertyName) {
@@ -205,8 +205,8 @@ public class Property {
         return javaTypePrefix;
     }
 
-    public String getJavaValue() {
-        return javaValue;
+    public String getPropertyValue() {
+        return propertyValue;
     }
 
     public int getOrdinal() {
