@@ -1,4 +1,4 @@
-package de.greenrobot.daogenerator.utils;
+package de.greenrobo.utils;
 
 /**
  * Created by djzhang on 2/28/14.

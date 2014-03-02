@@ -17,16 +17,8 @@ package de.greenrobot.daogenerator.gentest;
 
 import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
-import de.greenrobot.daogenerator.Property;
 import de.greenrobot.daogenerator.Schema;
-import de.greenrobot.daogenerator.ToMany;
 
-import de.greenrobot.daogenerator.utils.StringUtils;
-import org.jdom.*;
-import org.jdom.input.SAXBuilder;
-
-import java.io.IOException;
-import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.Set;

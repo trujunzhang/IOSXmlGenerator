@@ -17,6 +17,7 @@
  */
 package de.greenrobot.daogenerator;
 
+import de.greenrobo.utils.StringUtils;
 import de.greenrobot.daogenerator.Property.PropertyBuilder;
 
 import java.util.*;
@@ -288,6 +289,10 @@ public class Entity {
 
     public String getClassName() {
         return className;
+    }
+
+    public String getClassVariable() {
+        return StringUtils.convertFirstChatToLower(className);
     }
 
     public List<Property> getProperties() {

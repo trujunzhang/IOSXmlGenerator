@@ -29,7 +29,7 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 - (id)<#list entity.properties as property><#if property_index==0>init<#else>${property.propertyName}</#if>:(${property.javaType} *)${property.propertyName}<#if property_has_next> </#if></#list>{
     if ((self = [super init])) {
         <#list entity.properties as property>
-        self.${property.propertyName} = ${property.propertyName}<#if property_has_next> </#if>
+        self.${property.propertyName} = ${property.propertyName}<#if property_has_next> </#if>;
         </#list>
     }
 </#if>

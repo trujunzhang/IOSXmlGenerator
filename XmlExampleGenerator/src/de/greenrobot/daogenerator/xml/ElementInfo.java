@@ -1,11 +1,9 @@
 package de.greenrobot.daogenerator.xml;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
 
+import de.greenrobo.utils.StringUtils;
 import de.greenrobot.daogenerator.PropertyType;
-import de.greenrobot.daogenerator.utils.StringUtils;
 
 /**
  * Created by djzhang on 2/27/14.

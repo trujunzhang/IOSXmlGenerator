@@ -47,6 +47,7 @@ public class DaoGenerator {
     private Template templateDaoSession;
     private Template templateEntityH;
     private Template templateEntityM;
+    private Template templateEntityXML;
     private Template templateDaoUnitTest;
     private Template templateContentProvider;
 
@@ -69,6 +70,7 @@ public class DaoGenerator {
 
         templateEntityH = config.getTemplate("entityH.ftl");
         templateEntityM = config.getTemplate("entityM.ftl");
+        templateEntityXML = config.getTemplate("entityXML.ftl");
 
 //        templateDaoUnitTest = config.getTemplate("dao-unit-test.ftl");
 //        templateContentProvider = config.getTemplate("content-provider.ftl");
@@ -111,6 +113,7 @@ public class DaoGenerator {
             if (!entity.isProtobuf() && !entity.isSkipGeneration()) {
                 generate(templateEntityH, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "h");
                 generate(templateEntityM, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "m");
+                generate(templateEntityXML, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "mm");
             }
 //            if (outDirTestFile != null && !entity.isSkipGenerationTest()) {
 //                String javaPackageTest = entity.getJavaPackageTest();
@@ -147,7 +150,7 @@ public class DaoGenerator {
 
     private void generate(Template template, File outDirFile, String javaPackage, String javaClassName, Schema schema,
                           Entity entity, String extension) throws Exception {
-        generate(template, outDirFile, javaPackage, javaClassName, schema, entity, null,extension);
+        generate(template, outDirFile, javaPackage, javaClassName, schema, entity, null, extension);
     }
 
     private void generate(Template template, File outDirFile, String javaPackage, String javaClassName, Schema schema,
