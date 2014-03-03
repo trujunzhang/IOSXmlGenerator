@@ -34,7 +34,10 @@
     [self check${toOne.targetEntity.className}:${entity.classVariable}.${toOne.name}];
     </#list>
     <#list entity.toManyRelations as toMany>
-    [self check${toMany.targetEntity.className}:${entity.classVariable}.${toMany.name}];
+    //  class:${toMany.targetEntity.className}
+    if ([${entity.classVariable}.${toMany.name} count] > 0) {
+      [self check${toMany.targetEntity.className}:${entity.classVariable}.${toMany.name}[0]];
+    }
     </#list>
 </#if>
 

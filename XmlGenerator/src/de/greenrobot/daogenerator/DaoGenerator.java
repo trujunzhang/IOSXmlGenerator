@@ -115,8 +115,8 @@ public class DaoGenerator {
             if (!entity.isProtobuf() && !entity.isSkipGeneration()) {
                 generate(templateEntityH, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "h");
                 generate(templateEntityM, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "m");
-                generate(templateEntityXML, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "mm");
-                generate(templateEntityUnitTest, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "c");
+                generate(templateEntityXML, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "parse");
+                generate(templateEntityUnitTest, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "unittest");
             }
 //            if (outDirTestFile != null && !entity.isSkipGenerationTest()) {
 //                String javaPackageTest = entity.getJavaPackageTest();

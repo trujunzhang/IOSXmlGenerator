@@ -39,7 +39,7 @@ import de.greenrobot.daogenerator.xml.ElementInfo;
 public class ExampleDaoGenerator {
 
     private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/MobileWorkEnterprise/mobile/ios/MobileWorkGHUnit/trunk/MobileWorkProject/Tests/Resources/";
-    private static String pathname = "TravelList.xml";
+    private static String pathname = "RepairList.xml";
 
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(3, "");
