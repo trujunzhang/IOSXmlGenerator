@@ -12,6 +12,7 @@
 
 @implementation ${entity.className}Test
 
+#pragma mark - test ${entity.className}
 - (void)test${entity.className} {
    NSString * xmlPath = [[NSBundle mainBundle] pathForResource:@"${entity.className}" ofType:@"xml"];
    ${entity.className} * ${entity.classVariable} = [ParserTools read${entity.className}:[NSString stringWithContentsOfFile:xmlPath]];
@@ -33,7 +34,7 @@
     [self check${toOne.targetEntity.className}:${entity.classVariable}.${toOne.name}];
     </#list>
     <#list entity.toManyRelations as toMany>
-    @property (nonatomic, retain) NSMutableArray *${toMany.name};
+    [self check${toMany.targetEntity.className}:${entity.classVariable}.${toMany.name}];
     </#list>
 </#if>
 

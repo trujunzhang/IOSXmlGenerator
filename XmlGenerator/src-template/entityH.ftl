@@ -48,6 +48,14 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
     - (id)<#list entity.properties as property><#if property_index==0>init<#else>${property.propertyName}</#if>:(${property.javaType} *)${property.propertyName}<#if property_has_next> </#if></#list>;
 </#if>
 
+<#if entity.active>
+    <#list entity.toOneRelations as toOne>
+    </#list>
+    <#list entity.toManyRelations as toMany>
+    - (id)init;
+    </#list>
+</#if>
+
 @end;
 
 

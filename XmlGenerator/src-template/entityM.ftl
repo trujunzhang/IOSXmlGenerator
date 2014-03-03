@@ -36,6 +36,19 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
     return self;
 }
 
+<#if entity.active>
+    <#list entity.toOneRelations as toOne>
+    </#list>
+    <#list entity.toManyRelations as toMany>
+- (id)init {
+   if ((self = [super init])) {
+      self.${toMany.name} = [[NSMutableArray alloc] init];
+   }
+   return self;
+}
+    </#list>
+</#if>
+
 @end
 
 

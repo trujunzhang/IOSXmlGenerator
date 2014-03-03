@@ -21,6 +21,16 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 <#assign toCursorType = {"Boolean":"Short", "Byte":"Short", "Short":"Short", "Int":"Int", "Long":"Long", "Float":"Float", "Double":"Double", "String":"Wanghao", "ByteArray":"Blob" }/>
 <#assign complexTypes = ["String", "ByteArray", "Date"]/>
 
+
+#pragma mark - read for ${entity.className}
++ (${entity.className} *)read${entity.className}:(NSString *)str {
+   TBXMLElement * root = [[TBXML alloc] initWithXMLString:str error:nil].rootXMLElement;
+
+   return [self readFor${entity.className}:root];
+}
+
+
+
 + (${entity.className} *)readFor${entity.className}:(TBXMLElement *)pElement {
    ${entity.className} * ${entity.classVariable} = [[${entity.className} alloc] init];
 
@@ -34,13 +44,16 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 
 <#if entity.active>
    <#list entity.toOneRelations as toOne>
-   TBXMLElement * ${toOne.name}s = [TBXML childElementNamed:@"sysStaff" parentElement:pElement];
+   TBXMLElement * ${toOne.name}s = [TBXML childElementNamed:@"${toOne.name}" parentElement:pElement];
    if (${toOne.name}s) {
       ${entity.classVariable}.${toOne.name} = [self readFor${toOne.targetEntity.className}:${toOne.name}s];
    }
    </#list>
    <#list entity.toManyRelations as toMany>
-   @property (nonatomic, retain) NSMutableArray *${toMany.name};
+   TBXMLElement * ${toMany.name}s = [TBXML childElementNamed:@"list" parentElement:pElement];
+   if (${toMany.name}s) {
+   ${entity.classVariable}.${toMany.name} = [self readFor${toMany.targetEntity.className}:${toMany.name}s];
+   }   
    </#list>
 </#if>
 
