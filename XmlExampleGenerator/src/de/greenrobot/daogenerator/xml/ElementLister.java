@@ -6,6 +6,7 @@ import org.jdom.input.SAXBuilder;
 import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 import de.greenrobot.daogenerator.PropertyType;
 
@@ -70,23 +71,68 @@ public class ElementLister {
                     tagHashMap.put(key, value);
                     propertyTypeObjectLinkedHashMap.put(tagHashMap, PropertyType.String);
                     printSpaces(depth + 1, getCurrentTagSize(current));
-                    System.out.println(child.getName() + "-" + propertyTypeObjectLinkedHashMap.size());
                 }
-            } else {
+            } else if (isArrayClass(child)) {
+                Element arrayChild = (Element) child.getChildren().get(0);
+
+                String arrayTagName = getCustomTagArrayName(child);
+
+                LinkedHashMap<Object, PropertyType> childLinkedHashMap = new LinkedHashMap<Object, PropertyType>();
+                ElementInfo arrayElementInfo = new ElementInfo(arrayTagName, childLinkedHashMap);
+
+                propertyTypeObjectLinkedHashMap.put(arrayElementInfo, PropertyType.ByteArray);
+                XM_LELEMET_LINKEDHASHMAP.put(arrayChild, childLinkedHashMap);
+
+                listChildren(arrayChild, depth + 1 + 1);
+
+            } else {// sub class
                 LinkedHashMap<Object, PropertyType> childLinkedHashMap = new LinkedHashMap<Object, PropertyType>();
                 ElementInfo elementInfo = new ElementInfo(child.getName(), childLinkedHashMap);
 
                 propertyTypeObjectLinkedHashMap.put(elementInfo, PropertyType.Class);
 
                 XM_LELEMET_LINKEDHASHMAP.put(child, childLinkedHashMap);
-
-                System.out.println("parent-" + propertyTypeObjectLinkedHashMap.size());
-
                 listChildren(child, depth + 1);
             }
 
         }
+    }
 
+    /**
+     * get Customize tag.
+     * like:
+     * <com.xinma.xmobile.travel.model.TravelPlan>
+     *
+     * @param parent
+     * @return <TravelPlan>
+     */
+    private String getCustomTagArrayName(Element parent) {
+        String key = ((Element) parent.getChildren().get(0)).getName();
+        int last = key.lastIndexOf('.');
+        if (last != -1) {
+            key = key.substring(last + 1);
+        }
+        return key;
+    }
+
+    private boolean isArrayClass(Element parent) {
+        LinkedList<String> keys = new LinkedList<String>();
+        Iterator iterator = parent.getChildren().iterator();
+        while (iterator.hasNext()) {
+            Element child = (Element) iterator.next();
+            keys.add(child.getName());
+        }
+
+        for (int i = 0; i < keys.size(); i++) {
+            String key = keys.get(i);
+            for (int j = 0; j < keys.size(); j++) {
+                String keyJ = keys.get(j);
+                if (key.equals(keyJ) == false) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private boolean isIgnorTages(String key) {

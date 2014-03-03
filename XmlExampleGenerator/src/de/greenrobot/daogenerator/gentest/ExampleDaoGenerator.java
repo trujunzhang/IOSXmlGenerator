@@ -20,6 +20,7 @@ import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.Schema;
 
+import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -37,18 +38,19 @@ import de.greenrobot.daogenerator.xml.ElementInfo;
  */
 public class ExampleDaoGenerator {
 
-    private static String pathname = "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen/example.xml";
+    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/MobileWorkEnterprise/mobile/ios/MobileWorkGHUnit/trunk/MobileWorkProject/Tests/Resources/";
+    private static String pathname = "TravelList.xml";
 
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(3, "");
 
         String[] ignorTags = {"script"};
-        ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(pathname);
+        ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(new File(pathFold, pathname).getAbsolutePath());
         if (elementInfo != null) {
             generateNode(elementInfo, schema);
         }
 
-        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
+//        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
 
     private static Entity generateNode(ElementInfo parentInfo, Schema schema) {
@@ -61,13 +63,17 @@ public class ExampleDaoGenerator {
         while (iterator.hasNext()) {
             Object key = iterator.next();
             PropertyType value = childHashMap.get(key);
-            if (value.equals(PropertyType.Class)) {
+            if (value.equals(PropertyType.ByteArray)) {// to many as Array
+                ElementInfo elementInfo = (ElementInfo) key;
+                Entity childNote = generateNode(elementInfo, schema);
+                note.addToMany(childNote, null);
+            } else if (value.equals(PropertyType.Class)) {// to one as Class
 
                 ElementInfo elementInfo = (ElementInfo) key;
                 Entity childNote = generateNode(elementInfo, schema);
 
                 note.addToOne(childNote, null);
-            } else if (value.equals(PropertyType.String)) {
+            } else if (value.equals(PropertyType.String)) {  // to property as Variable
                 LinkedHashMap<String, String> tagHashMap = (LinkedHashMap<String, String>) key;
                 if (tagHashMap.size() == 1) {
                     Set<String> tagSets = tagHashMap.keySet();
