@@ -19,7 +19,9 @@ package de.greenrobot.daogenerator;
 
 import java.util.List;
 
-/** To-many relationship from a source entity to many target entitites. */
+/**
+ * To-many relationship from a source entity to many target entitites.
+ */
 public class ToMany {
     @SuppressWarnings("unused")
     private final Schema schema;
@@ -31,7 +33,7 @@ public class ToMany {
     private final PropertyOrderList propertyOrderList;
 
     public ToMany(Schema schema, Entity sourceEntity, Property[] sourceProperties, Entity targetEntity,
-            Property[] targetProperties) {
+                  Property[] targetProperties) {
         this.schema = schema;
         this.sourceEntity = sourceEntity;
         this.targetEntity = targetEntity;
@@ -72,7 +74,9 @@ public class ToMany {
         this.name = name;
     }
 
-    /** Property of target entity used for ascending order. */
+    /**
+     * Property of target entity used for ascending order.
+     */
     public void orderAsc(Property... properties) {
         for (Property property : properties) {
             targetEntity.validatePropertyExists(property);
@@ -80,7 +84,9 @@ public class ToMany {
         }
     }
 
-    /** Property of target entity used for descending order. */
+    /**
+     * Property of target entity used for descending order.
+     */
     public void orderDesc(Property... properties) {
         for (Property property : properties) {
             targetEntity.validatePropertyExists(property);
@@ -100,34 +106,34 @@ public class ToMany {
         if (name == null) {
             char[] nameCharArray = targetEntity.getClassName().toCharArray();
             nameCharArray[0] = Character.toLowerCase(nameCharArray[0]);
-            name = new String(nameCharArray) + "List";
+            name = new String(nameCharArray) + "Array";
         }
         if (sourceProperties == null) {
-            List<Property> pks = sourceEntity.getPropertiesPk();
-            if (pks.isEmpty()) {
-                throw new RuntimeException("Source entity has no primary key, but we need it for " + this);
-            }
-            sourceProperties = new Property[pks.size()];
-            sourceProperties = pks.toArray(sourceProperties);
+//            List<Property> pks = sourceEntity.getPropertiesPk();
+//            if (pks.isEmpty()) {
+//                throw new RuntimeException("Source entity has no primary key, but we need it for " + this);
+//            }
+//            sourceProperties = new Property[pks.size()];
+//            sourceProperties = pks.toArray(sourceProperties);
         }
-        int count = sourceProperties.length;
-        if (count != targetProperties.length) {
-            throw new RuntimeException("Source properties do not match target properties: " + this);
-        }
-
-        for (int i = 0; i < count; i++) {
-            Property sourceProperty = sourceProperties[i];
-            Property targetProperty = targetProperties[i];
-
-            PropertyType sourceType = sourceProperty.getPropertyType();
-            PropertyType targetType = targetProperty.getPropertyType();
-            if (sourceType == null || targetType == null) {
-                throw new RuntimeException("Property type uninitialized");
-            }
-            if (sourceType != targetType) {
-                System.err.println("Warning to-one property type does not match target key type: " + this);
-            }
-        }
+//        int count = sourceProperties.length;
+//        if (count != targetProperties.length) {
+//            throw new RuntimeException("Source properties do not match target properties: " + this);
+//        }
+//
+//        for (int i = 0; i < count; i++) {
+//            Property sourceProperty = sourceProperties[i];
+//            Property targetProperty = targetProperties[i];
+//
+//            PropertyType sourceType = sourceProperty.getPropertyType();
+//            PropertyType targetType = targetProperty.getPropertyType();
+//            if (sourceType == null || targetType == null) {
+//                throw new RuntimeException("Property type uninitialized");
+//            }
+//            if (sourceType != targetType) {
+//                System.err.println("Warning to-one property type does not match target key type: " + this);
+//            }
+//        }
     }
 
     void init3ndPass() {

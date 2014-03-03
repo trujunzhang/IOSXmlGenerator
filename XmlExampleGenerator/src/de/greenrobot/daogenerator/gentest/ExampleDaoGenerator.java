@@ -50,7 +50,7 @@ public class ExampleDaoGenerator {
             generateNode(elementInfo, schema);
         }
 
-//        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
+        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
 
     private static Entity generateNode(ElementInfo parentInfo, Schema schema) {
