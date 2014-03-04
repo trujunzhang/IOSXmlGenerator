@@ -21,14 +21,10 @@
 
 
 - (void)check${entity.className}:(${entity.className} *)${entity.classVariable} {
-
 <#list entity.properties as property>
     //  ${property.propertyName}
-    NSString * ${property.propertyName} = ${entity.classVariable}.${property.propertyName};
-    NSString * ${property.propertyName}Expected = @"${property.propertyValue}";
-    GHAssertEqualObjects(${property.propertyName}, ${property.propertyName}Expected, @"A custom error message. %@ should be equal to: %@.", ${property.propertyName}, ${property.propertyName}Expected);
+    GHAssertEqualObjects(${entity.classVariable}.${property.propertyName},  @"${property.propertyValue}", MESSAGE_EQUAL, ${entity.classVariable}.${property.propertyName},  @"${property.propertyValue}");
 </#list>
-
 <#if entity.active>
     <#list entity.toOneRelations as toOne>
     [self check${toOne.targetEntity.className}:${entity.classVariable}.${toOne.name}];
@@ -40,7 +36,6 @@
     }
     </#list>
 </#if>
-
 }
 
 @end

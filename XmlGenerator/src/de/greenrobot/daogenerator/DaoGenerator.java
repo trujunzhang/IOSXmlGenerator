@@ -88,6 +88,9 @@ public class DaoGenerator {
      * Generates all entities and DAOs for the given schema.
      */
     public void generateAll(Schema schema, String outDir) throws Exception {
+        if (new File(outDir).exists() == false) {
+            new File(outDir).mkdir();
+        }
         generateAll(schema, outDir, null);
     }
 
