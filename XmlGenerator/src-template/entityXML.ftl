@@ -69,3 +69,4 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
    return ${entity.classVariable};
 }
 
+

@@ -49,6 +49,33 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
     </#list>
 </#if>
 
+
+- (void)save${entity.className}:(${entity.className} *)info {
+   NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
+<#list entity.properties as property>
+    <#if property.notNull && complexTypes?seq_contains(property.propertyType)></#if>
+   [settings removeObjectForKey:@"${property.propertyName}"];
+</#list>
+<#list entity.properties as property>
+    <#if property.notNull && complexTypes?seq_contains(property.propertyType)></#if>
+   [settings setObject:info.${property.propertyName} forKey:@"${property.propertyName}"];
+</#list>
+   [settings synchronize];
+}
+
+- (${entity.className} *)get${entity.className} {
+   NSUserDefaults * settings = [NSUserDefaults standardUserDefaults];
+   ${entity.className} * info = [[${entity.className} alloc] init];
+<#list entity.properties as property>
+    <#if property.notNull && complexTypes?seq_contains(property.propertyType)></#if>
+   info.${property.propertyName}=[settings objectForKey:@"${property.propertyName}"];
+</#list>
+   return info;
+}
+
+
+
+
 @end
 
 
