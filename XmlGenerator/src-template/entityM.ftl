@@ -68,7 +68,7 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
    ${entity.className} * info = [[${entity.className} alloc] init];
 <#list entity.properties as property>
     <#if property.notNull && complexTypes?seq_contains(property.propertyType)></#if>
-   info.${property.propertyName}=[settings objectForKey:@"${property.propertyName}"];
+   info.${property.propertyName} = [settings objectForKey:@"${property.propertyName}"];
 </#list>
    return info;
 }
