@@ -8,19 +8,19 @@ import org.jdom.input.SAXBuilder;
 
 import java.io.IOException;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 
 public class ElementDetailsLister {
 
-    private final LinkedList<String> textViewTitle;
+    private final LinkedHashMap<String, String> textViewTitle;
 
     public ElementDetailsLister() {
-        this.textViewTitle = new LinkedList<String>();
+        this.textViewTitle = new LinkedHashMap<String, String>();
     }
 
-    public LinkedList<String> getXmlTags(String pathname) {
+    public LinkedHashMap<String, String> getXmlTags(String pathname) {
         SAXBuilder builder = new SAXBuilder();
 
         try {
@@ -52,26 +52,30 @@ public class ElementDetailsLister {
             String name = child.getName();
             boolean isTextView = name.equals("TableRow");
             if (b && name.equals("TextView")) {
-                getTitleByAttribute(child);
-//                Attribute attribute = child.getAttribute("android:text");
-//                System.out.println("attribute = " + attribute);
+                String value = getTitleByAttribute(child, "text");
+                String key = getTitleID(current).replace("@+id/", "");
+                this.textViewTitle.put(key, value);
                 break;
             }
             listChildren(child, depth + 1, isTextView);
         }
     }
 
-    private void getTitleByAttribute(Element child) {
+    private String getTitleID(Element current) {
+        List children = current.getChildren();
+        Element idElement = (Element) children.get(1);
+        return getTitleByAttribute(idElement, "id");
+    }
+
+    private String getTitleByAttribute(Element child, String text) {
         List attributes = child.getAttributes();
         for (int i = 0; i < attributes.size(); i++) {
             Attribute attribute = (Attribute) attributes.get(i);
-            if (attribute.getName().equals("text")) {
-                String value = attribute.getValue();
-                System.out.println("value = " + value);
-                this.textViewTitle.add(value);
+            if (attribute.getName().equals(text)) {
+                return attribute.getValue();
             }
         }
-        //((Attribute)((AttributeList)child.getAttributes()).)
+        return null;
     }
 
     private static int getCurrentTagSize(Element children) {

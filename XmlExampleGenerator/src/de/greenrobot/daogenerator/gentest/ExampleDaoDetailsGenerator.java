@@ -46,16 +46,16 @@ public class ExampleDaoDetailsGenerator {
 
         Schema schema = new Schema(3, "");
 
-        LinkedList<String> xmlTags = new ElementDetailsLister().getXmlTags(new File(pathFold, pathnames[0]).getAbsolutePath());
+        LinkedHashMap<String, String> xmlTags = new ElementDetailsLister().getXmlTags(new File(pathFold, pathnames[0]).getAbsolutePath());
         generateNode(xmlTags, schema);
 
         new DaoGenerator().generateDetailAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
 
-    private static Entity generateNode(LinkedList<String> parentInfo, Schema schema) {
+    private static Entity generateNode(LinkedHashMap<String, String> parentInfo, Schema schema) {
         Entity note = schema.addEntity("Details");
         for (int i = 0; i < parentInfo.size(); i++) {
-            note.addStringProperty(i + "", parentInfo.get(i));
+//            note.addStringProperty(i + "", parentInfo.get(i));
         }
         return note;
     }
