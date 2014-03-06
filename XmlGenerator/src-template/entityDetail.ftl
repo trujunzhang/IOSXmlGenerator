@@ -21,40 +21,38 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 <#assign toCursorType = {"Boolean":"Short", "Byte":"Short", "Short":"Short", "Int":"Int", "Long":"Long", "Float":"Float", "Double":"Double", "String":"Wanghao", "ByteArray":"Blob" }/>
 <#assign complexTypes = ["String", "ByteArray", "Date"]/>
 
-#import <Foundation/Foundation.h>
+#import
+<Foundation/Foundation.h>
 <#if entity.active>
     <#list entity.toOneRelations as toOne>
-#import "${toOne.targetEntity.className}.h"
+    #import "${toOne.targetEntity.className}.h"
     </#list>
 </#if>
 
 @interface ${entity.className} : NSObject
 
+
+
+QRootElement * root = [[QRootElement alloc] init];
+root.controllerName = @"";
+root.title = @"Sorting";
+root.grouped = NO;
+
+QSortingSection * infoSection = [[QSortingSection alloc] init];
+infoSection.key = @"detailSection";
 <#list entity.properties as property>
     <#if property.notNull && complexTypes?seq_contains(property.propertyType)></#if>
-    ${property.javaTypePrefix} ${property.javaType} *${property.propertyName};
+[infoSection addElement:[[QLabelElement alloc] initWithTitle:@"First" Value:@"1"]];
 </#list>
 
-<#if entity.active>
-    <#list entity.toOneRelations as toOne>
-    @property (nonatomic, assign) ${toOne.targetEntity.className} *${toOne.name};
-    </#list>
-    <#list entity.toManyRelations as toMany>
-    @property (nonatomic, retain) NSMutableArray *${toMany.name};
-    </#list>
-</#if>
 
-<#if entity.constructors>
-    - (id)<#list entity.properties as property><#if property_index==0>init<#else>${property.propertyName}</#if>:(${property.javaType} *)${property.propertyName}<#if property_has_next> </#if></#list>;
-</#if>
+[root addSection:infoSection];
 
-<#if entity.active>
-    <#list entity.toOneRelations as toOne>
-    </#list>
-    <#list entity.toManyRelations as toMany>
-    - (id)init;
-    </#list>
-</#if>
+
+
+
+
+
 
 @end;
 

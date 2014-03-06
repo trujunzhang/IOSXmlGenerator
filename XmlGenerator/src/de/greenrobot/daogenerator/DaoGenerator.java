@@ -172,7 +172,7 @@ public class DaoGenerator {
         List<Entity> entities = schema.getEntities();
         for (Entity entity : entities) {
             if (!entity.isProtobuf() && !entity.isSkipGeneration()) {
-                generate(templateEntityDetail, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "h");
+                generate(templateEntityDetail, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "detail");
             }
         }
 
