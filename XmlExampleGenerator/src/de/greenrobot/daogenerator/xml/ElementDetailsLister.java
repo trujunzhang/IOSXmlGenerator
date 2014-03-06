@@ -20,7 +20,7 @@ public class ElementDetailsLister {
         this.textViewTitle = new LinkedList<String>();
     }
 
-    public void getXmlTags(String pathname) {
+    public LinkedList<String> getXmlTags(String pathname) {
         SAXBuilder builder = new SAXBuilder();
 
         try {
@@ -34,6 +34,8 @@ public class ElementDetailsLister {
         } catch (IOException e) {
             System.out.println(e);
         }
+
+        return this.textViewTitle;
     }
 
 

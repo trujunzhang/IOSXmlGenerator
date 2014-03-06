@@ -49,6 +49,7 @@ public class DaoGenerator {
     private Template templateEntityM;
     private Template templateEntityXML;
     private Template templateEntityUnitTest;
+    private Template templateEntityDetail;
     private Template templateDaoUnitTest;
     private Template templateContentProvider;
 
@@ -73,6 +74,7 @@ public class DaoGenerator {
         templateEntityM = config.getTemplate("entityM.ftl");
         templateEntityXML = config.getTemplate("entityXML.ftl");
         templateEntityUnitTest = config.getTemplate("entityUnitTest.ftl");
+        templateEntityDetail = config.getTemplate("entityDetail.ftl");
 
 //        templateDaoUnitTest = config.getTemplate("dao-unit-test.ftl");
 //        templateContentProvider = config.getTemplate("content-provider.ftl");
@@ -92,6 +94,13 @@ public class DaoGenerator {
             new File(outDir).mkdir();
         }
         generateAll(schema, outDir, null);
+    }
+
+    public void generateDetailAll(Schema schema, String outDir) throws Exception {
+        if (new File(outDir).exists() == false) {
+            new File(outDir).mkdir();
+        }
+        generateDetailAll(schema, outDir, null);
     }
 
     /**
@@ -140,6 +149,32 @@ public class DaoGenerator {
         }
 //        generate(templateDaoMaster, outDirFile, schema.getDefaultJavaPackageDao(), "DaoMaster", schema, null);
 //        generate(templateDaoSession, outDirFile, schema.getDefaultJavaPackageDao(), "DaoSession", schema, null);
+
+        long time = System.currentTimeMillis() - start;
+        System.out.println("Processed " + entities.size() + " entities in " + time + "ms");
+    }
+
+    public void generateDetailAll(Schema schema, String outDir, String outDirTest) throws Exception {
+        long start = System.currentTimeMillis();
+
+        File outDirFile = toFileForceExists(outDir);
+
+        File outDirTestFile = null;
+        if (outDirTest != null) {
+            outDirTestFile = toFileForceExists(outDirTest);
+        }
+
+        schema.init2ndPass();
+        schema.init3ndPass();
+
+        System.out.println("Processing schema version " + schema.getVersion() + "...");
+
+        List<Entity> entities = schema.getEntities();
+        for (Entity entity : entities) {
+            if (!entity.isProtobuf() && !entity.isSkipGeneration()) {
+                generate(templateEntityDetail, outDirFile, entity.getJavaPackage(), entity.getClassName(), schema, entity, "h");
+            }
+        }
 
         long time = System.currentTimeMillis() - start;
         System.out.println("Processed " + entities.size() + " entities in " + time + "ms");

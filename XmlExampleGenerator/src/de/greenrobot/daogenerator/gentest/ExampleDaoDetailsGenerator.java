@@ -25,6 +25,7 @@ import de.greenrobot.daogenerator.xml.ElementDetailsLister;
 import java.io.File;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Set;
 
 /**
@@ -45,47 +46,16 @@ public class ExampleDaoDetailsGenerator {
 
         Schema schema = new Schema(3, "");
 
-        new ElementDetailsLister().getXmlTags(new File(pathFold, pathnames[0]).getAbsolutePath());
-//        if (elementInfo != null) {
-//            generateNode(elementInfo, schema);
-//        }
+        LinkedList<String> xmlTags = new ElementDetailsLister().getXmlTags(new File(pathFold, pathnames[0]).getAbsolutePath());
+        generateNode(xmlTags, schema);
 
-//        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
+        new DaoGenerator().generateDetailAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
 
-    private static Entity generateNode(ElementInfo parentInfo, Schema schema) {
-        Entity note = schema.addEntity(parentInfo.tagName);
-
-        LinkedHashMap<Object, PropertyType> childHashMap = parentInfo.childHashMap;
-
-        Set<Object> sets = childHashMap.keySet();
-        Iterator iterator = sets.iterator();
-        while (iterator.hasNext()) {
-            Object key = iterator.next();
-            PropertyType value = childHashMap.get(key);
-            if (value.equals(PropertyType.ByteArray)) {// to many as Array
-                ElementInfo elementInfo = (ElementInfo) key;
-                Entity childNote = generateNode(elementInfo, schema);
-                note.addToMany(childNote, null);
-            } else if (value.equals(PropertyType.Class)) {// to one as Class
-
-                ElementInfo elementInfo = (ElementInfo) key;
-                Entity childNote = generateNode(elementInfo, schema);
-
-                note.addToOne(childNote, null);
-            } else if (value.equals(PropertyType.String)) {  // to property as Variable
-                LinkedHashMap<String, String> tagHashMap = (LinkedHashMap<String, String>) key;
-                if (tagHashMap.size() == 1) {
-                    Set<String> tagSets = tagHashMap.keySet();
-                    Iterator keyIterator = tagSets.iterator();
-                    while (keyIterator.hasNext()) {
-                        String tagKey = (String) keyIterator.next();
-                        String tagValue = (String) tagHashMap.get(tagKey);
-                        note.addStringProperty(tagKey, tagValue);
-                    }
-                }
-
-            }
+    private static Entity generateNode(LinkedList<String> parentInfo, Schema schema) {
+        Entity note = schema.addEntity("Details");
+        for (int i = 0; i < parentInfo.size(); i++) {
+            note.addStringProperty(i + "", parentInfo.get(i));
         }
         return note;
     }
