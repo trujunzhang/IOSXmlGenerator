@@ -50,7 +50,7 @@ public class ExampleDaoGenerator {
 
         String[] ignorTags = {"script"};
         ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(
-                new File(pathFold, pathnames[4]).getAbsolutePath());
+                new File(pathFold, pathnames[2]).getAbsolutePath());
         if (elementInfo != null) {
             generateNode(elementInfo, schema);
         }

@@ -39,14 +39,14 @@ public class ExampleDaoDetailsGenerator {
 
     private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/jscs/app/src/main/res/layout";
     private static String pathnames[] = {
-            "repair_detail.xml",
+            "repair_detail.xml","chucha_deltail.xml"
     };
 
     public static void main(String[] args) throws Exception {
 
         Schema schema = new Schema(3, "");
 
-        LinkedHashMap<String, String> xmlTags = new ElementDetailsLister().getXmlTags(new File(pathFold, pathnames[0]).getAbsolutePath());
+        LinkedHashMap<String, String> xmlTags = new ElementDetailsLister().getXmlTags(new File(pathFold, pathnames[1]).getAbsolutePath());
         generateNode(xmlTags, schema);
 
         new DaoGenerator().generateDetailAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
@@ -54,11 +54,14 @@ public class ExampleDaoDetailsGenerator {
 
     private static Entity generateNode(LinkedHashMap<String, String> parentInfo, Schema schema) {
         Entity note = schema.addEntity("Details");
-        for (int i = 0; i < parentInfo.size(); i++) {
-//            note.addStringProperty(i + "", parentInfo.get(i));
+        Set<String> strings = parentInfo.keySet();
+        Iterator iterator = strings.iterator();
+        while (iterator.hasNext()) {
+            String key = (String) iterator.next();
+            String value = parentInfo.get(key);
+            note.addStringProperty(key, value);
         }
         return note;
     }
-
 
 }

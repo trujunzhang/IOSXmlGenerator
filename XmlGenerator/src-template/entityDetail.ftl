@@ -32,7 +32,6 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 @interface ${entity.className} : NSObject
 
 
-
 QRootElement * root = [[QRootElement alloc] init];
 root.controllerName = @"";
 root.title = @"Sorting";
@@ -42,16 +41,11 @@ QSortingSection * infoSection = [[QSortingSection alloc] init];
 infoSection.key = @"detailSection";
 <#list entity.properties as property>
     <#if property.notNull && complexTypes?seq_contains(property.propertyType)></#if>
-[infoSection addElement:[[QLabelElement alloc] initWithTitle:@"First" Value:@"1"]];
+[detailSection addElement:[QColorLabelElement getLabelElementWithTitle:@"${property.propertyValue}" Value:info.${property.propertyName}]];
 </#list>
 
 
 [root addSection:infoSection];
-
-
-
-
-
 
 
 @end;
