@@ -36,7 +36,9 @@ import java.util.Set;
  */
 public class ExampleObjectIncludeGenerator {
 
-    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/MobileWorkEnterprise/mobile/ios/MobileWorkGHUnit/trunk/MobileWorkProject/MobileWork.xcodeproj/project.pbxproj";
+    private static String pathFold = "/Volumes/macshare/Home/djzhang/Desktop/androidUnit/" +
+            //"project.pbxproj";
+            "wanghao.txt";
 
     public static void main(String[] args) throws Exception {
 
@@ -49,7 +51,7 @@ public class ExampleObjectIncludeGenerator {
             generateNode(elementInfo, schema);
         }
 
-        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
+//        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
 
     private static Entity generateNode(ElementInfo parentInfo, Schema schema) {
