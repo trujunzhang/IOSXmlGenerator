@@ -15,6 +15,10 @@ repositories {
 dependencies {
     compile('jdom:jdom:1.1')
     compile project(':XmlGenerator')
+    compile 'commons-codec:commons-codec:1.2'
+    compile 'junit:junit:4.10'
+    compile 'xmlunit:xmlunit:1.3'
+    compile 'com.sap.prd.mobile.ios.mios:xcode-project-java-api:1.1.0'
 }
 
 sourceSets {

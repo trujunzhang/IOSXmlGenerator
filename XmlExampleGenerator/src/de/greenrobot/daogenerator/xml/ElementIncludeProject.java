@@ -20,8 +20,6 @@ public class ElementIncludeProject {
         this.ignorTags = ignorTags;
     }
 
-    private static String pathname = "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen/example.xml";
-
     static LinkedHashMap<Element, LinkedHashMap<Object, PropertyType>> XM_LELEMET_LINKEDHASHMAP;
 
     public ElementInfo getXmlTags(String pathname) {
