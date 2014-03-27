@@ -74,6 +74,15 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
 }
 
 
+- (id)parseDictionaryForDetail:(NSMutableDictionary *)dictionary {
+
+<#list entity.properties as property>
+    <#if property.notNull && complexTypes?seq_contains(property.propertyType)></#if>
+   self.${property.propertyName} = [dictionary valueForKey:@"${property.propertyName}"];   //  ${property.propertyName}
+</#list>
+
+   return self;
+}
 
 
 @end
