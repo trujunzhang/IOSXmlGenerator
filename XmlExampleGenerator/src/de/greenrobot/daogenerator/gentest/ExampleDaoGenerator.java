@@ -42,7 +42,9 @@ public class ExampleDaoGenerator {
     private static String pathnames[] = {
             "LoginHelper.xml",
             "TravelList.xml", "TravelDetail.xml",
-            "RepairList.xml", "RepairDetail.xml"};
+            "RepairList.xml", "RepairDetail.xml",
+            "customerRepairList.data.xml"
+    };
 
     public static void main(String[] args) throws Exception {
 
@@ -50,7 +52,7 @@ public class ExampleDaoGenerator {
 
         String[] ignorTags = {"script"};
         ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(
-                new File(pathFold, pathnames[2]).getAbsolutePath());
+                new File(pathFold, pathnames[5]).getAbsolutePath());
         if (elementInfo != null) {
             generateNode(elementInfo, schema);
         }
