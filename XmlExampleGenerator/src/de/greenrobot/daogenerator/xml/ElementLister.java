@@ -52,27 +52,25 @@ public class ElementLister {
 
 
     private void listChildren(Element current, int depth) {
-
-        String tagName = current.getName();
-
+        // 1. list infomation.
         printSpaces(depth, getCurrentTagSize(current));
-        System.out.println(tagName);
+        System.out.println(current.getName());
 
         Iterator iterator = current.getChildren().iterator();
         while (iterator.hasNext()) {
             Element child = (Element) iterator.next();
             int size = getCurrentTagSize(child);
             LinkedHashMap<Object, PropertyType> propertyTypeObjectLinkedHashMap = XM_LELEMET_LINKEDHASHMAP.get(current);
-            if (size == 0) {
-                String key = child.getName();
-                if (isIgnorTages(key) == false) {
+            String childTagName = child.getName();
+            if (size == 0) {// single
+                if (isIgnorTages(childTagName) == false) {
                     String value = child.getValue();
                     LinkedHashMap<String, String> tagHashMap = new LinkedHashMap<String, String>();
-                    tagHashMap.put(key, value);
+                    tagHashMap.put(childTagName, value);
                     propertyTypeObjectLinkedHashMap.put(tagHashMap, PropertyType.String);
                     printSpaces(depth + 1, getCurrentTagSize(current));
                 }
-            } else if (isArrayClass(child)) {
+            } else if (isArrayClass(child)) {// multiple tags
                 Element arrayChild = (Element) child.getChildren().get(0);
 
                 String arrayTagName = getCustomTagArrayName(child);
@@ -86,8 +84,9 @@ public class ElementLister {
                 listChildren(arrayChild, depth + 1 + 1);
 
             } else {// sub class
+                childTagName = this.getRealName(childTagName, child);
                 LinkedHashMap<Object, PropertyType> childLinkedHashMap = new LinkedHashMap<Object, PropertyType>();
-                ElementInfo elementInfo = new ElementInfo(child.getName(), childLinkedHashMap);
+                ElementInfo elementInfo = new ElementInfo(childTagName, childLinkedHashMap);
 
                 propertyTypeObjectLinkedHashMap.put(elementInfo, PropertyType.Class);
 
@@ -96,6 +95,15 @@ public class ElementLister {
             }
 
         }
+    }
+
+    private String getRealName(String tagName, Element child) {
+        if (tagName.equals("object")) {
+            String aClass = child.getAttribute("class").getValue().replace(".", ",");
+            String[] split = aClass.split(",");
+            return split[split.length - 1];
+        }
+        return tagName;
     }
 
     /**

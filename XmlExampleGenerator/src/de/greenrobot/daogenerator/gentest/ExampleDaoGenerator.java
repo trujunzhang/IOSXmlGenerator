@@ -49,7 +49,7 @@ public class ExampleDaoGenerator {
             "RepairList.xml", "RepairDetail.xml",
             "customerRepairList.data.xml",
             // 2014-04-10(6)
-            "getLeaveApplication.data.xml",
+            "getLeaveApplication.data.xml", "getLeaveApplicationById.data.xml",
     };
 
 
@@ -59,7 +59,7 @@ public class ExampleDaoGenerator {
 
         String[] ignorTags = {"script"};
         File xmlFold = new File(pathFold, libPath);
-        final int xmlIndex = 6;
+        final int xmlIndex = 7;
         ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(
                 new File(xmlFold, pathnames[xmlIndex]).getAbsolutePath());
         if (elementInfo != null) {
