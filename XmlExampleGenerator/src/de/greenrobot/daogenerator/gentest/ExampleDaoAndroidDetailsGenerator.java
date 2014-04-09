@@ -37,18 +37,24 @@ import java.util.Set;
  */
 public class ExampleDaoAndroidDetailsGenerator {
 
-    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/myandroid/jscs/res/layout";
-    //            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/jscs/app/src/main/res/layout";
+    private static String pathFold =
+//            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/myandroid/jscs/res/layout";
+            //            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/jscs/app/src/main/res/layout";
+            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/android/移动外勤/xinmabaseall/res/layout";
+
     private static String pathnames[] = {
-            "repair_detail.xml", "chucha_deltail.xml", "chuchashenqing.xml"
+            "repair_detail.xml", "chucha_deltail.xml", "chuchashenqing.xml",
+            // 2014-04-10(3)
+            "qingjia_deltail.xml",
     };
 
     public static void main(String[] args) throws Exception {
 
         Schema schema = new Schema(3, "");
 
+        final int xmlIndex = 3;
         LinkedHashMap<String, String> xmlTags =
-                new ElementDetailsLister().getXmlTags(new File(pathFold, pathnames[2]).getAbsolutePath());
+                new ElementDetailsLister().getXmlTags(new File(pathFold, pathnames[xmlIndex]).getAbsolutePath());
         generateNode(xmlTags, schema);
 
         new DaoGenerator().generateDetailAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");

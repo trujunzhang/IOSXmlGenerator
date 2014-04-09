@@ -38,21 +38,30 @@ import de.greenrobot.daogenerator.xml.ElementInfo;
  */
 public class ExampleDaoGenerator {
 
-    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/MobileWorkEnterprise/mobile/ios/MobileWorkGHUnit/trunk/MobileWorkProject/Tests/Resources/";
+    //    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/MobileWorkEnterprise/mobile/ios/MobileWorkGHUnit/trunk/MobileWorkProject/Tests/Resources/";
+    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/IOSMobileWorkApps/cocoapodsApps/MobileWorkApps/trunk/MobileWorkApps/lib";
+
+    private static String libPath = "mobilework_qingjiaguanli/Assets/test";
+
     private static String pathnames[] = {
             "LoginHelper.xml",
             "TravelList.xml", "TravelDetail.xml",
             "RepairList.xml", "RepairDetail.xml",
-            "customerRepairList.data.xml"
+            "customerRepairList.data.xml",
+            // 2014-04-10(6)
+            "getLeaveApplication.data.xml",
     };
+
 
     public static void main(String[] args) throws Exception {
 
         Schema schema = new Schema(3, "");
 
         String[] ignorTags = {"script"};
+        File xmlFold = new File(pathFold, libPath);
+        final int xmlIndex = 6;
         ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(
-                new File(pathFold, pathnames[5]).getAbsolutePath());
+                new File(xmlFold, pathnames[xmlIndex]).getAbsolutePath());
         if (elementInfo != null) {
             generateNode(elementInfo, schema);
         }
