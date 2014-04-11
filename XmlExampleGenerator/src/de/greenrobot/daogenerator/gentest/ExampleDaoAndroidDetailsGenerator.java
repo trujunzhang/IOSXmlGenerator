@@ -44,11 +44,14 @@ public class ExampleDaoAndroidDetailsGenerator {
 
     private static String pathnames[] = {
             "repair_detail.xml", "chucha_deltail.xml", "chuchashenqing.xml",
-            // 2014-04-10(3)
+            // 2014-04-10
+            // qingjia(3)
             "qingjia_deltail.xml", "qingjiashenqing.xml",
+            // jiaban(5)
+            "jiaban_deltail.xml", "jiabanshenqing.xml",
     };
 
-    private static final int xmlIndex = 4;
+    private static final int xmlIndex = 6;
     private static File xmlFile;
 
     public static void main(String[] args) throws Exception {
