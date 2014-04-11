@@ -39,27 +39,33 @@ import de.greenrobot.daogenerator.xml.ElementInfo;
 public class ExampleDaoGenerator {
 
     //    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/MobileWorkEnterprise/mobile/ios/MobileWorkGHUnit/trunk/MobileWorkProject/Tests/Resources/";
-    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/IOSMobileWorkApps/cocoapodsApps/MobileWorkApps/trunk/MobileWorkApps/lib";
+    private static String pathFold =
+//            "/Volumes/macshare/Home/SHARE/developing/svn/IOSMobileWorkApps/cocoapodsApps/MobileWorkApps/trunk/MobileWorkApps/lib";
+            "/Volumes/macshare/Home/djzhang/Desktop/buddy/xmobileXml";
 
-    private static String libPath = "mobilework_qingjiaguanli/Assets/test";
+    private static String libPath =
+//            "mobilework_qingjiaguanli/Assets/test";
+            "";
 
     private static String pathnames[] = {
             "LoginHelper.xml",
             "TravelList.xml", "TravelDetail.xml",
             "RepairList.xml", "RepairDetail.xml",
             "customerRepairList.data.xml",
-            // 2014-04-10(6)
+            // 2014-04-10
+            // qingjia(6)
             "getLeaveApplication.data.xml", "getLeaveApplicationById.data.xml",
+            // jiaban(8)
+            "", "",
     };
-
+    private static final int xmlIndex = 7;
 
     public static void main(String[] args) throws Exception {
-
         Schema schema = new Schema(3, "");
 
         String[] ignorTags = {"script"};
         File xmlFold = new File(pathFold, libPath);
-        final int xmlIndex = 7;
+
         ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(
                 new File(xmlFold, pathnames[xmlIndex]).getAbsolutePath());
         if (elementInfo != null) {
