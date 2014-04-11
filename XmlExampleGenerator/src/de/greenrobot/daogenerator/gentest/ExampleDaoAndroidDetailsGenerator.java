@@ -45,23 +45,25 @@ public class ExampleDaoAndroidDetailsGenerator {
     private static String pathnames[] = {
             "repair_detail.xml", "chucha_deltail.xml", "chuchashenqing.xml",
             // 2014-04-10(3)
-            "qingjia_deltail.xml",
+            "qingjia_deltail.xml", "qingjiashenqing.xml",
     };
+
+    private static final int xmlIndex = 4;
+    private static File xmlFile;
 
     public static void main(String[] args) throws Exception {
 
         Schema schema = new Schema(3, "");
 
-        final int xmlIndex = 3;
-        LinkedHashMap<String, String> xmlTags =
-                new ElementDetailsLister().getXmlTags(new File(pathFold, pathnames[xmlIndex]).getAbsolutePath());
+        xmlFile = new File(pathFold, pathnames[xmlIndex]);
+        LinkedHashMap<String, String> xmlTags = new ElementDetailsLister().getXmlTags(xmlFile.getAbsolutePath());
         generateNode(xmlTags, schema);
 
         new DaoGenerator().generateDetailAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
 
     private static Entity generateNode(LinkedHashMap<String, String> parentInfo, Schema schema) {
-        Entity note = schema.addEntity("Details");
+        Entity note = schema.addEntity(xmlFile.getName().replace(".xml", ""));
         Set<String> strings = parentInfo.keySet();
         Iterator iterator = strings.iterator();
         while (iterator.hasNext()) {

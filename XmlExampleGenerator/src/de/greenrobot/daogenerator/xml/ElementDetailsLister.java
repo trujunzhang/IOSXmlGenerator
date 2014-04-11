@@ -40,21 +40,22 @@ public class ElementDetailsLister {
 
 
     private void listChildren(Element current, int depth, boolean b) {
-
-        String tagName = current.getName();
-
-//        printSpaces(depth, getCurrentTagSize(current));
-//        System.out.println(tagName);
-
         Iterator iterator = current.getChildren().iterator();
         while (iterator.hasNext()) {
             Element child = (Element) iterator.next();
             String name = child.getName();
             boolean isTextView = name.equals("TableRow");
             if (b && name.equals("TextView")) {
-                String value = getTitleByAttribute(child, "text");
-                String key = getTitleID(current).replace("@+id/", "");
-                this.textViewTitle.put(key, value);
+                String titleID = null;
+                try {
+                    String value = getTitleByAttribute(child, "text");
+                    titleID = getTitleID(current);
+                    String key = titleID.replace("@+id/", "");
+                    this.textViewTitle.put(key, value);
+                } catch (Exception e) {
+                    System.out.println("titleID = " + titleID);
+                    e.printStackTrace();
+                }
                 break;
             }
             listChildren(child, depth + 1, isTextView);
@@ -64,7 +65,11 @@ public class ElementDetailsLister {
     private String getTitleID(Element current) {
         List children = current.getChildren();
         Element idElement = (Element) children.get(1);
-        return getTitleByAttribute(idElement, "id");
+        String id = getTitleByAttribute(idElement, "id");
+        if (id == null) {
+            System.out.println("id = " + id);
+        }
+        return id;
     }
 
     private String getTitleByAttribute(Element child, String text) {
