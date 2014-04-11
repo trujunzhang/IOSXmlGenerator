@@ -41,7 +41,7 @@ QSortingSection * infoSection = [[QSortingSection alloc] init];
 infoSection.key = @"detailSection";
 <#list entity.properties as property>
     <#if property.notNull && complexTypes?seq_contains(property.propertyType)></#if>
-[detailSection addElement:[QColorLabelElement getLabelElementWithTitle:@"${property.propertyValue}" Value:info.${property.propertyName}]];
+[detailSection addElement:[QColorLabelElement getLabelElementWithTitle:@"${property.propertyValue}" Value:self.info.${property.propertyName}]];
 </#list>
 
 

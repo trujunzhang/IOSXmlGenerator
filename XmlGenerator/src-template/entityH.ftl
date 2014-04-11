@@ -56,6 +56,11 @@ along with greenDAO Generator.  If not, see <http://www.gnu.org/licenses/>.
     </#list>
 </#if>
 
+- (id)parseDictionaryForList:(NSMutableDictionary *)dictionary;
+- (id)initWithDictionary:(NSMutableDictionary *)dictionary;
+
+
+
 @end;
 
 
