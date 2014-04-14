@@ -52,7 +52,8 @@ public class ActitivyReplaceUtils {
         }
         try {
             if (hasChanged) {
-                FileUtils.writeFile(file.getAbsolutePath(), buffer.toString());
+                String fileData = FileUtils.replaceEmptyLiner(buffer.toString());
+                FileUtils.writeFile(file.getAbsolutePath(), fileData);
             } else {
             }
         } catch (Exception e) {

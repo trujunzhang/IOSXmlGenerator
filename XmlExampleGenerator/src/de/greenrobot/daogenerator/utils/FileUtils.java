@@ -69,7 +69,7 @@ public class FileUtils {
         return FileUtils.replaceEmptyLiner(readFile(filePath));
     }
 
-    private static String replaceEmptyLiner(String s) {
+    public static String replaceEmptyLiner(String s) {
         return s.replaceAll("(?m)^\\s*$[\n\r]{1,}", "");
     }
 
