@@ -31,6 +31,9 @@ public class ActitivyReplaceUtils {
         if (data == null) {
             return;
         }
+//        System.out.println(".........................................................................");
+        System.out.println("# " + file.getName());
+//        System.out.println(".........................................................................");
         data = this.replaceData(data);
 
         try {
