@@ -32,31 +32,86 @@ public class ActitivyReplaceUtils {
             return;
         }
 //        System.out.println(".........................................................................");
-        System.out.println("# " + file.getName());
+//        System.out.println("# " + file.getName());
 //        System.out.println(".........................................................................");
-        data = this.replaceData(data);
+
+        String replaceData = this.replaceData(data);
 
         try {
-            FileUtils.writeFile(file.getAbsolutePath(), data);
-        } catch (IOException e) {
-            System.out.println("ActitivyReplaceUtils.saveReplaceFile" + file.getAbsolutePath());
+            if (replaceData.equals(data)) {
+//                System.out.println("ActitivyReplaceUtils.saveReplaceFile" + file.getAbsolutePath());
+            } else {
+//                System.out.println("ActitivyReplaceUtils.saveReplaceFile" + file.getAbsolutePath());
+                FileUtils.writeFile(file.getAbsolutePath(), replaceData);
+            }
+        } catch (Exception e) {
+            System.out.println("<***>Exception: ActitivyReplaceUtils.saveReplaceFile" + file.getAbsolutePath());
             e.printStackTrace();
         }
     }
 
     private String replaceData(String data) {
-        List<RegMatcherHelper.RegMatchModel> regMatchModels = RegMatcherHelper.getRegExpImgs(data, "params.*;");
+        List<RegMatcherHelper.RegMatchModel> regMatchModels = RegMatcherHelper.getRegExpImgs(data, "params.add.*value.*;");
         for (RegMatcherHelper.RegMatchModel model : regMatchModels) {
-            String mMatch = model.mMatch;
-            System.out.println("mMatch = " + mMatch);
+            data = this.setObjectPara(data, model);
         }
-
-//        int index = data.indexOf("params.add(new BasicNameValuePair(");
-
-//        data = data.replace("private String ", "@property (nonatomic, copy) NSString *");
-//        data = data.replace("private Date ", "@property (nonatomic, copy) NSString *");
-
         return data;
+    }
+
+    private String setObjectPara(String data, RegMatcherHelper.RegMatchModel model) {
+        int mStart = model.mStart;
+        int mEnd = model.mEnd;
+        String mMatch = model.mMatch;
+        String before = data.substring(0, mStart);
+        String after = data.substring(mEnd);
+
+        String replaceData = this.getReplaceObject(mMatch);
+
+        System.out.println(replaceData);
+
+        return String.format("%s%s%s", before, replaceData, after);
+    }
+
+    /**
+     * params.add(new BasicNameValuePair("leave_reason", leave_reason_str));
+     *
+     * @param line
+     * @return
+     */
+    private String getReplaceObject(String line) {
+        String[] split = line.split(",");
+        if (split.length > 1) {
+            String left = split[0];
+            String right = split[1];
+            String leftStr = setLeft(left);
+            String rightStr = setRight(right);
+            String s = String.format("%s%s\n\r", leftStr, rightStr);
+            s.replace("\"\"+", " ");
+            System.out.println("leftStr = " + leftStr);
+//            System.out.println("rightStr = " + rightStr);
+            System.out.println("s = " + s);
+            return s;
+        }
+        return line;
+    }
+
+
+    private String setLeft(String left) {
+        left = left.replace("params.add(new BasicNameValuePair(", "[AppNetAPIClient putToDictionary:dic forKey:@");
+//        System.out.println("left = " + left);
+        return left;
+    }
+
+    private String setRight(String right) {
+        right = right.replace("))", "").replace(" ", "").replace(";", "];");
+//        if (right.contains(".")) {
+//            return right;
+//        }
+        String s = " forString:self.info." + right;
+
+        System.out.println("rightStr = " + s);
+//        System.out.println("s = " + s);
+        return s;
     }
 
 
