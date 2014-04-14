@@ -108,4 +108,10 @@ public class FileUtils {
     }
 
 
+    public static void deleteFold(File outPath) {
+        File[] list = outPath.listFiles();
+        for (File file : list) {
+            file.delete();
+        }
+    }
 }
