@@ -2,6 +2,7 @@ package de.greenrobot.daogenerator.gentest;
 
 import de.greenrobot.daogenerator.utils.ActitivyReplaceUtils;
 import de.greenrobot.daogenerator.utils.AndroidModelUtils;
+import de.greenrobot.daogenerator.utils.Tools;
 
 import java.io.File;
 
@@ -17,10 +18,11 @@ public class ReplaceAndroidFilesHelper {
 
     public static void main(String[] args) {
         // 1. convert model's variable's Defintion to object-c's Definition
-        new AndroidModelUtils().replaceDefine(new File(ANDROID_SRC, MODEL_PATH));
+//        new AndroidModelUtils().replaceDefine(new File(ANDROID_SRC, MODEL_PATH));
 
         // 2. replace server request's parameter to object-c's format.(put)
-        new ActitivyReplaceUtils().replacePut(new File(ANDROID_SRC, ACTIVITY_PATH));
+//        new ActitivyReplaceUtils().replacePut(new File(ANDROID_SRC, ACTIVITY_PATH));
+        File home = Tools.getProfile();
     }
 
 }
