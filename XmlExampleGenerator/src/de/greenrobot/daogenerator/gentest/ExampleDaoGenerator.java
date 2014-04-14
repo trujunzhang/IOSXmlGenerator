@@ -56,9 +56,9 @@ public class ExampleDaoGenerator {
             // qingjia(6)
             "getLeaveApplication.data.xml", "getLeaveApplicationById.data.xml",
             // jiaban(8)
-            "", "",
+            "getOvertimeApplication.data.xml", "getOvertimeApplicationById.data.xml",
     };
-    private static final int xmlIndex = 7;
+    private static final int xmlIndex = 9;
 
     public static void main(String[] args) throws Exception {
         Schema schema = new Schema(3, "");
