@@ -2,6 +2,7 @@ package de.greenrobot.daogenerator.utils;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -22,27 +23,37 @@ public class ActitivyReplaceUtils {
     }
 
     private void saveReplaceFile(File file) {
-        String data = null;
+        LinkedList<String> lines = null;
         try {
-            data = FileUtils.readFile(file.getAbsolutePath());
+            lines = FileUtils.readToList(file.getAbsolutePath());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        if (data == null) {
+        if (lines == null) {
             return;
         }
 //        System.out.println(".........................................................................");
 //        System.out.println("# " + file.getName());
 //        System.out.println(".........................................................................");
 
-        String replaceData = this.replaceData(data);
-
+        boolean hasChanged = false;
+        StringBuffer buffer = new StringBuffer();
+        for (String line : lines) {
+            String data = this.replaceLine(line);
+            if (data.equals(line) == false) {
+                hasChanged = true;
+                System.out.println("data = " + data);
+            }
+//            if (line.equals("\n") || line.equals("\r") || line.equals("\n\r") || line.equals("\r\n")) {
+//                continue;
+//            }
+            buffer.append(data); // 将读到的内容添加到 buffer 中
+            buffer.append("\n"); // 添加换行符
+        }
         try {
-            if (replaceData.equals(data)) {
-//                System.out.println("ActitivyReplaceUtils.saveReplaceFile" + file.getAbsolutePath());
+            if (hasChanged) {
+                FileUtils.writeFile(file.getAbsolutePath(), buffer.toString());
             } else {
-//                System.out.println("ActitivyReplaceUtils.saveReplaceFile" + file.getAbsolutePath());
-                FileUtils.writeFile(file.getAbsolutePath(), replaceData);
             }
         } catch (Exception e) {
             System.out.println("<***>Exception: ActitivyReplaceUtils.saveReplaceFile" + file.getAbsolutePath());
@@ -50,27 +61,13 @@ public class ActitivyReplaceUtils {
         }
     }
 
-    private String replaceData(String data) {
-        List<RegMatcherHelper.RegMatchModel> regMatchModels = RegMatcherHelper.getRegExpImgs(data, "params.add.*value.*;");
-        for (RegMatcherHelper.RegMatchModel model : regMatchModels) {
-            data = this.setObjectPara(data, model);
+    private String replaceLine(String line) {
+        if (line.contains("params.add") && line.contains("BasicNameValuePair")) {
+            return getReplaceObject(line);
         }
-        return data;
+        return line;
     }
 
-    private String setObjectPara(String data, RegMatcherHelper.RegMatchModel model) {
-        int mStart = model.mStart;
-        int mEnd = model.mEnd;
-        String mMatch = model.mMatch;
-        String before = data.substring(0, mStart);
-        String after = data.substring(mEnd);
-
-        String replaceData = this.getReplaceObject(mMatch);
-
-        System.out.println(replaceData);
-
-        return String.format("%s%s%s", before, replaceData, after);
-    }
 
     /**
      * params.add(new BasicNameValuePair("leave_reason", leave_reason_str));
@@ -87,9 +84,6 @@ public class ActitivyReplaceUtils {
             String rightStr = setRight(right);
             String s = String.format("%s%s\n\r", leftStr, rightStr);
             s.replace("\"\"+", " ");
-            System.out.println("leftStr = " + leftStr);
-//            System.out.println("rightStr = " + rightStr);
-            System.out.println("s = " + s);
             return s;
         }
         return line;
@@ -98,19 +92,12 @@ public class ActitivyReplaceUtils {
 
     private String setLeft(String left) {
         left = left.replace("params.add(new BasicNameValuePair(", "[AppNetAPIClient putToDictionary:dic forKey:@");
-//        System.out.println("left = " + left);
         return left;
     }
 
     private String setRight(String right) {
         right = right.replace("))", "").replace(" ", "").replace(";", "];");
-//        if (right.contains(".")) {
-//            return right;
-//        }
         String s = " forString:self.info." + right;
-
-        System.out.println("rightStr = " + s);
-//        System.out.println("s = " + s);
         return s;
     }
 

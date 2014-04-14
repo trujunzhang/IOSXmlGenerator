@@ -1,6 +1,7 @@
 package de.greenrobot.daogenerator.utils;
 
 import java.io.*;
+import java.util.LinkedList;
 
 /**
  * 文件操作代码
@@ -30,6 +31,23 @@ public class FileUtils {
         }
         reader.close();
         is.close();
+    }
+
+    public static LinkedList readToList(String filePath) throws IOException {
+        LinkedList<String> lines = new LinkedList<String>();
+
+        InputStream is = new FileInputStream(filePath);
+        String line; // 用来保存每行读取的内容
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+        line = reader.readLine(); // 读取第一行
+        while (line != null) { // 如果 line 为空说明读完了
+            lines.add(line);
+            line = reader.readLine(); // 读取下一行
+        }
+        reader.close();
+        is.close();
+
+        return lines;
     }
 
     /**
