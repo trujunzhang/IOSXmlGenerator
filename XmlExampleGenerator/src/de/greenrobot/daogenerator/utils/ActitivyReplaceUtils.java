@@ -47,6 +47,9 @@ public class ActitivyReplaceUtils {
 //            if (line.equals("\n") || line.equals("\r") || line.equals("\n\r") || line.equals("\r\n")) {
 //                continue;
 //            }
+            if (line.contains("System.out.println")) {
+                continue;
+            }
             buffer.append(data); // 将读到的内容添加到 buffer 中
             buffer.append("\n"); // 添加换行符
         }
