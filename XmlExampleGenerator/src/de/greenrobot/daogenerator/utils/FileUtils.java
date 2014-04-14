@@ -47,6 +47,14 @@ public class FileUtils {
         return sb.toString();
     }
 
+    public static String readFileByReplaceEmptyLine(String filePath) throws IOException {
+        return FileUtils.replaceEmptyLiner(readFile(filePath));
+    }
+
+    private static String replaceEmptyLiner(String s) {
+        return s.replaceAll("(?m)^\\s*$[\n\r]{1,}", "");
+    }
+
     public static void writeFile(String filePath, String content) throws IOException {
         FileOutputStream fop = null;
         File file;
@@ -80,5 +88,6 @@ public class FileUtils {
             }
         }
     }
+
 
 }

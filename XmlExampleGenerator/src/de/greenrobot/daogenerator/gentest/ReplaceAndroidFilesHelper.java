@@ -16,11 +16,11 @@ public class ReplaceAndroidFilesHelper {
     public static final String ACTIVITY_PATH = "com/xinma/yidongwaiqin";
 
     public static void main(String[] args) {
-        // 1. convert model's variable's defintion to object-c's definition
-        new AndroidModelUtils().replace(new File(ANDROID_SRC, MODEL_PATH));
+        // 1. convert model's variable's Defintion to object-c's Definition
+        new AndroidModelUtils().replaceDefine(new File(ANDROID_SRC, MODEL_PATH));
 
-        // 2. replace server request's parameter to object-c's format
-        new ActitivyReplaceUtils().replace(new File(ANDROID_SRC, ACTIVITY_PATH));
+        // 2. replace server request's parameter to object-c's format.(put)
+        new ActitivyReplaceUtils().replacePut(new File(ANDROID_SRC, ACTIVITY_PATH));
     }
 
 }
