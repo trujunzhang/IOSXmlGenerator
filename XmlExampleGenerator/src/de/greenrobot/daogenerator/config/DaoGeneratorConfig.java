@@ -24,7 +24,7 @@ public class DaoGeneratorConfig {
      * format:"getTravelApplicationById.data"
      * no contains xml
      */
-    private String xmlName;
+    public String xmlName;
 
     public String xmlFile;
 

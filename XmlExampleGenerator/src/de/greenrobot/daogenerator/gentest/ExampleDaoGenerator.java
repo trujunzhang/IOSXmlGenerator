@@ -82,8 +82,6 @@ public class ExampleDaoGenerator {
         }
 
         new DaoGenerator().generateAll(schema, config.outDir);
-
-//        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
 
     private static Entity generateNode(ElementInfo parentInfo, Schema schema) {

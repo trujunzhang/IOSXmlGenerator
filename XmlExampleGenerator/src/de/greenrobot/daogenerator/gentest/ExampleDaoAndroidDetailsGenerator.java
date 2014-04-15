@@ -19,6 +19,8 @@ import de.greenrobot.daogenerator.DaoGenerator;
 import de.greenrobot.daogenerator.Entity;
 import de.greenrobot.daogenerator.PropertyType;
 import de.greenrobot.daogenerator.Schema;
+import de.greenrobot.daogenerator.config.DaoGeneratorConfig;
+import de.greenrobot.daogenerator.utils.Tools;
 import de.greenrobot.daogenerator.xml.ElementInfo;
 import de.greenrobot.daogenerator.xml.ElementDetailsLister;
 
@@ -37,36 +39,41 @@ import java.util.Set;
  */
 public class ExampleDaoAndroidDetailsGenerator {
 
-    private static String pathFold =
-//            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/myandroid/jscs/res/layout";
-            //            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/jscs/app/src/main/res/layout";
-            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/android/移动外勤/xinmabaseall/res/layout";
-
-    private static String pathnames[] = {
-            "repair_detail.xml", "chucha_deltail.xml", "chuchashenqing.xml",
-            // 2014-04-10
-            // qingjia(3)
-            "qingjia_deltail.xml", "qingjiashenqing.xml",
-            // jiaban(5)
-            "jiaban_deltail.xml", "jiabanshenqing.xml",
-    };
-
-    private static final int xmlIndex = 6;
-    private static File xmlFile;
+//    private static String pathFold =
+////            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/myandroid/jscs/res/layout";
+//            //            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/jscs/app/src/main/res/layout";
+//            "/Volumes/macshare/Home/SHARE/developing/svn/xmobile_sa/android/移动外勤/xinmabaseall/res/layout";
+//
+//    private static String pathnames[] = {
+//            "repair_detail.xml", "chucha_deltail.xml", "chuchashenqing.xml",
+//            // 2014-04-10
+//            // qingjia(3)
+//            "qingjia_deltail.xml", "qingjiashenqing.xml",
+//            // jiaban(5)
+//            "jiaban_deltail.xml", "jiabanshenqing.xml",
+//    };
+//
+//    private static final int xmlIndex = 6;
+//    private static File xmlFile;
 
     public static void main(String[] args) throws Exception {
+        File configPath = new File(Tools.getConfig(), "DaoAndroidDetailsGenerator.xml");
 
-        Schema schema = new Schema(3, "");
+        DaoGeneratorConfig config = new DaoGeneratorConfig(configPath);
 
-        xmlFile = new File(pathFold, pathnames[xmlIndex]);
-        LinkedHashMap<String, String> xmlTags = new ElementDetailsLister().getXmlTags(xmlFile.getAbsolutePath());
-        generateNode(xmlTags, schema);
-
-        new DaoGenerator().generateDetailAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
+        generatorByConfigure(config);
     }
 
-    private static Entity generateNode(LinkedHashMap<String, String> parentInfo, Schema schema) {
-        Entity note = schema.addEntity(xmlFile.getName().replace(".xml", ""));
+    private static void generatorByConfigure(DaoGeneratorConfig config) throws Exception {
+        Schema schema = new Schema(3, "");
+        LinkedHashMap<String, String> xmlTags = new ElementDetailsLister().getXmlTags(config.xmlFile);
+        generateNode(config, xmlTags, schema);
+
+        new DaoGenerator().generateDetailAll(schema, config.outDir);
+    }
+
+    private static Entity generateNode(DaoGeneratorConfig config, LinkedHashMap<String, String> parentInfo, Schema schema) {
+        Entity note = schema.addEntity(config.xmlName);
         Set<String> strings = parentInfo.keySet();
         Iterator iterator = strings.iterator();
         while (iterator.hasNext()) {
