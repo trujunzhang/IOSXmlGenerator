@@ -23,10 +23,10 @@ public class AndroidToObjectFilesHelper {
         AndroidToObjectConfig config = new AndroidToObjectConfig(configPath);
 
         // 1. convert model's variable's Defintion to object-c's Definition
-//        new AndroidModelUtils().replaceDefine(config.androidModelFold);
+        new AndroidModelUtils().replaceDefine(config.androidModelFold);
 
         // 2. replace server request's parameter to object-c's format.(put)
-//        new ActitivyReplaceUtils().replaceRequestParam(config.androidRequestParamFold);
+        new ActitivyReplaceUtils().replaceRequestParam(config.androidRequestParamFold);
     }
 
 }

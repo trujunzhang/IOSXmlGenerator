@@ -43,9 +43,6 @@ public class ActitivyReplaceUtils {
                 hasChanged = true;
                 System.out.println("data = " + data);
             }
-//            if (line.equals("\n") || line.equals("\r") || line.equals("\n\r") || line.equals("\r\n")) {
-//                continue;
-//            }
             if (line.contains("System.out.println")) {
                 continue;
             }
