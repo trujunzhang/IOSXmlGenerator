@@ -3,18 +3,17 @@ package de.greenrobot.daogenerator.utils;
 import java.io.File;
 import java.io.IOException;
 import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by djzhang on 4/14/14.
  */
 public class ActitivyReplaceUtils {
 
-    public void replacePut(File activityFold) {
+    public void replaceRequestParam(File activityFold) {
         File[] list = activityFold.listFiles();
         for (File f : list) {
             if (f.isDirectory()) {
-                replacePut(f);
+                replaceRequestParam(f);
             } else {
                 this.saveReplaceFile(f);
             }
