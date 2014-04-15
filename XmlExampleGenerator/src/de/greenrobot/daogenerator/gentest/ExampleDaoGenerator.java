@@ -61,6 +61,7 @@ public class ExampleDaoGenerator {
     private static final int xmlIndex = 9;
 
     public static void main(String[] args) throws Exception {
+
         Schema schema = new Schema(3, "");
 
         String[] ignorTags = {"script"};

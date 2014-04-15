@@ -1,9 +1,9 @@
 package de.greenrobot.daogenerator.gentest;
 
+import de.greenrobot.daogenerator.config.FoldReplaceConfig;
 import de.greenrobot.daogenerator.utils.FileUtils;
 import de.greenrobot.daogenerator.utils.FoldReplaceUtils;
 import de.greenrobot.daogenerator.utils.Tools;
-import de.greenrobot.daogenerator.xml.ReplaceConfigLister;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -20,12 +20,12 @@ public class FoldReplaceByConfig {
         check(outPath);
 
         // 2. get config data
-        ReplaceConfigLister replaceConfigLister = new ReplaceConfigLister();
-        replaceConfigLister.getConfig(configPath.getAbsolutePath());
+        FoldReplaceConfig config = new FoldReplaceConfig();
+        config.getConfig(configPath.getAbsolutePath());
 
         // 3. replace all files in the fold.
-        String fold = replaceConfigLister.foldPath;
-        LinkedHashMap<String, String> replaceHashMap = replaceConfigLister.replaceHashMap;
+        String fold = config.foldPath;
+        LinkedHashMap<String, String> replaceHashMap = config.replaceHashMap;
 
         new FoldReplaceUtils().replaceAll(outPath, fold, replaceHashMap);
     }

@@ -1,4 +1,4 @@
-package de.greenrobot.daogenerator.xml;
+package de.greenrobot.daogenerator.config;
 
 import org.jdom.Document;
 import org.jdom.Element;
@@ -10,12 +10,12 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 
-public class ReplaceConfigLister {
+public class FoldReplaceConfig {
 
     public final LinkedHashMap<String, String> replaceHashMap;
     public String foldPath;
 
-    public ReplaceConfigLister() {
+    public FoldReplaceConfig() {
         this.replaceHashMap = new LinkedHashMap<String, String>();
     }
 
