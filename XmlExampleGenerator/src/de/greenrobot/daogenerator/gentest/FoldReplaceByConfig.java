@@ -15,17 +15,14 @@ public class FoldReplaceByConfig {
 
     public static void main(String[] args) {
         // 1. get config path
-        File configPath = new File(Tools.getConfig(), "replace.xml");
+        File configPath = new File(Tools.getConfig(), "FoldReplace.xml");
         File outPath = new File(Tools.getOutFold(), "replace_Out");
 
         // 2. get config data
         FoldReplaceConfig config = new FoldReplaceConfig(configPath.getAbsolutePath());
 
         // 3. replace all files in the fold.
-        String fold = config.replaceFoldPath;
-        LinkedHashMap<String, String> replaceHashMap = config.replaceHashMap;
-
-        new FoldReplaceUtils().replaceAll(outPath, fold, replaceHashMap);
+        new FoldReplaceUtils().replaceAll(outPath, config.replaceFoldPath, config.replaceHashMap);
     }
 
 
