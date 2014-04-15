@@ -20,8 +20,7 @@ public class FoldReplaceByConfig {
         check(outPath);
 
         // 2. get config data
-        FoldReplaceConfig config = new FoldReplaceConfig();
-        config.getConfig(configPath.getAbsolutePath());
+        FoldReplaceConfig config = new FoldReplaceConfig(configPath.getAbsolutePath());
 
         // 3. replace all files in the fold.
         String fold = config.foldPath;

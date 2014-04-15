@@ -15,11 +15,12 @@ public class FoldReplaceConfig {
     public final LinkedHashMap<String, String> replaceHashMap;
     public String foldPath;
 
-    public FoldReplaceConfig() {
+    public FoldReplaceConfig(String pathname) {
         this.replaceHashMap = new LinkedHashMap<String, String>();
+        this.getConfig(pathname);
     }
 
-    public LinkedHashMap<String, String> getConfig(String pathname) {
+    private void getConfig(String pathname) {
         SAXBuilder builder = new SAXBuilder();
 
         try {
@@ -33,8 +34,6 @@ public class FoldReplaceConfig {
         } catch (IOException e) {
             System.out.println(e);
         }
-
-        return this.replaceHashMap;
     }
 
 
