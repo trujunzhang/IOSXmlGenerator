@@ -23,9 +23,12 @@ import de.greenrobot.daogenerator.Schema;
 import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Set;
 
 import de.greenrobot.daogenerator.PropertyType;
+import de.greenrobot.daogenerator.config.DaoGeneratorConfig;
+import de.greenrobot.daogenerator.utils.Tools;
 import de.greenrobot.daogenerator.xml.ElementLister;
 import de.greenrobot.daogenerator.xml.ElementInfo;
 
@@ -38,42 +41,49 @@ import de.greenrobot.daogenerator.xml.ElementInfo;
  */
 public class ExampleDaoGenerator {
 
-    //    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/MobileWorkEnterprise/mobile/ios/MobileWorkGHUnit/trunk/MobileWorkProject/Tests/Resources/";
-    private static String pathFold =
-//            "/Volumes/macshare/Home/SHARE/developing/svn/IOSMobileWorkApps/cocoapodsApps/MobileWorkApps/trunk/MobileWorkApps/lib";
-            "/Volumes/macshare/Home/djzhang/Desktop/buddy/xmobileXml";
-
-    private static String libPath =
-//            "mobilework_qingjiaguanli/Assets/test";
-            "";
-
-    private static String pathnames[] = {
-            "LoginHelper.xml",
-            "TravelList.xml", "TravelDetail.xml",
-            "RepairList.xml", "RepairDetail.xml",
-            "customerRepairList.data.xml",
-            // 2014-04-10
-            // qingjia(6)
-            "getLeaveApplication.data.xml", "getLeaveApplicationById.data.xml",
-            // jiaban(8)
-            "getOvertimeApplication.data.xml", "getOvertimeApplicationById.data.xml",
-    };
-    private static final int xmlIndex = 9;
+//    //    private static String pathFold = "/Volumes/macshare/Home/SHARE/developing/svn/MobileWorkEnterprise/mobile/ios/MobileWorkGHUnit/trunk/MobileWorkProject/Tests/Resources/";
+//    private static String pathFold =
+////            "/Volumes/macshare/Home/SHARE/developing/svn/IOSMobileWorkApps/cocoapodsApps/MobileWorkApps/trunk/MobileWorkApps/lib";
+//            "/Volumes/macshare/Home/djzhang/Desktop/buddy/xmobileXml";
+//
+//    private static String libPath =
+////            "mobilework_qingjiaguanli/Assets/test";
+//            "";
+//
+//    private static String pathnames[] = {
+//            "LoginHelper.xml",
+//            "TravelList.xml", "TravelDetail.xml",
+//            "RepairList.xml", "RepairDetail.xml",
+//            "customerRepairList.data.xml",
+//            // 2014-04-10
+//            // qingjia(6)
+//            "getLeaveApplication.data.xml", "getLeaveApplicationById.data.xml",
+//            // jiaban(8)
+//            "getOvertimeApplication.data.xml", "getOvertimeApplicationById.data.xml",
+//    };
+//    private static final int xmlIndex = 9;
 
     public static void main(String[] args) throws Exception {
+        File configPath = new File(Tools.getProfile(), "DaoGenerator.xml");
 
+        DaoGeneratorConfig config = new DaoGeneratorConfig(configPath.getAbsolutePath());
+
+        generatorByConfigure(config);
+    }
+
+    private static void generatorByConfigure(DaoGeneratorConfig config) throws Exception {
         Schema schema = new Schema(3, "");
 
-        String[] ignorTags = {"script"};
-        File xmlFold = new File(pathFold, libPath);
+        LinkedList<String> ignorTags = config.ignorTags;// {"script"};
 
-        ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(
-                new File(xmlFold, pathnames[xmlIndex]).getAbsolutePath());
+        ElementInfo elementInfo = new ElementLister(ignorTags).getXmlTags(config.xmlFile);
         if (elementInfo != null) {
             generateNode(elementInfo, schema);
         }
 
-        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
+        new DaoGenerator().generateAll(schema, config.outDir);
+
+//        new DaoGenerator().generateAll(schema, "/Volumes/macshare/Home/SHARE/developing/wanghaogithub720/android/IOSXmlGenerator/src-gen");
     }
 
     private static Entity generateNode(ElementInfo parentInfo, Schema schema) {

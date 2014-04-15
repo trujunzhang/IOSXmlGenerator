@@ -1,5 +1,6 @@
 package de.greenrobot.daogenerator.xml;
 
+import de.greenrobo.utils.StringUtils;
 import org.jdom.*;
 import org.jdom.input.SAXBuilder;
 
@@ -13,9 +14,9 @@ import de.greenrobot.daogenerator.PropertyType;
 
 public class ElementLister {
 
-    private String[] ignorTags;
+    private LinkedList<String> ignorTags;
 
-    public ElementLister(String[] ignorTags) {
+    public ElementLister(LinkedList<String> ignorTags) {
         this.ignorTags = ignorTags;
     }
 
@@ -144,8 +145,8 @@ public class ElementLister {
     }
 
     private boolean isIgnorTages(String key) {
-        for (int i = 0; i < ignorTags.length; i++) {
-            if (ignorTags[i].equals(key)) {
+        for (String tag : this.ignorTags) {
+            if (tag.equals(key)) {
                 return true;
             }
         }
