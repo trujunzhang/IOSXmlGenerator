@@ -23,7 +23,7 @@ public class FoldReplaceByConfig {
         FoldReplaceConfig config = new FoldReplaceConfig(configPath.getAbsolutePath());
 
         // 3. replace all files in the fold.
-        String fold = config.foldPath;
+        String fold = config.replaceFoldPath;
         LinkedHashMap<String, String> replaceHashMap = config.replaceHashMap;
 
         new FoldReplaceUtils().replaceAll(outPath, fold, replaceHashMap);

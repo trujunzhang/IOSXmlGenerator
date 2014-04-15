@@ -13,7 +13,7 @@ import java.util.LinkedHashMap;
 public class FoldReplaceConfig {
 
     public final LinkedHashMap<String, String> replaceHashMap;
-    public String foldPath;
+    public String replaceFoldPath;
 
     public FoldReplaceConfig(String pathname) {
         this.replaceHashMap = new LinkedHashMap<String, String>();
@@ -47,7 +47,7 @@ public class FoldReplaceConfig {
                 break;
             }
             if (name.equals("path")) {
-                this.foldPath = child.getValue();
+                this.replaceFoldPath = child.getValue();
             }
             listChildren(child, depth + 1);
         }
