@@ -64,9 +64,9 @@ public class ExampleDaoGenerator {
 //    private static final int xmlIndex = 9;
 
     public static void main(String[] args) throws Exception {
-        File configPath = new File(Tools.getProfile(), "DaoGenerator.xml");
+        File configPath = new File(Tools.getConfig(), "DaoGenerator.xml");
 
-        DaoGeneratorConfig config = new DaoGeneratorConfig(configPath.getAbsolutePath());
+        DaoGeneratorConfig config = new DaoGeneratorConfig(configPath);
 
         generatorByConfigure(config);
     }

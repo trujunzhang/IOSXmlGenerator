@@ -7,6 +7,7 @@ import org.jdom.JDOMException;
 import org.jdom.input.SAXBuilder;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,14 +28,18 @@ public class DaoGeneratorConfig {
 
     public String xmlFile;
 
-    public LinkedList<String> ignorTags;
+    public LinkedList<String> ignorTags = new LinkedList<String>();
 
     public java.lang.String outDir;
 
-    public DaoGeneratorConfig(String pathname) {
-        this.getConfig(pathname);
-        this.xmlFile = new File(this.xmlFold, String.format("%s.xml", this.xmlName)).getAbsolutePath();
-        this.outDir = Tools.getDaoGeneratorFold(this.xmlName).getAbsolutePath();
+    public DaoGeneratorConfig(File pathname) {
+        if (pathname.exists()) {
+            this.getConfig(pathname.getAbsolutePath());
+            this.xmlFile = new File(this.xmlFold, String.format("%s.xml", this.xmlName)).getAbsolutePath();
+            this.outDir = Tools.getDaoGeneratorFold(this.xmlName).getAbsolutePath();
+        } else {
+            System.out.println("DaoGeneratorConfig.DaoGeneratorConfig: not found file " + pathname.getAbsolutePath());
+        }
     }
 
     private void getConfig(String pathname) {
@@ -67,6 +72,7 @@ public class DaoGeneratorConfig {
             }
             if (name.equals("ignorTages")) {
                 this.getIgnorTages(child);
+                break;
             }
             listChildren(child, depth + 1);
         }

@@ -13,7 +13,7 @@ public class Tools {
     //  Config
     //.......................................................................................................................................
 
-    public static File getProfile() {
+    private static File getProfile() {
         File home = new File(System.getenv("HOME"), PROJECT_NAME);
         FileUtils.checkAndCreate(home);
         return home;
@@ -38,7 +38,7 @@ public class Tools {
 
     public static File getDaoGeneratorFold(String foldName) {
         // 1. generate fold
-        File generateFold = new File(Tools.getProfile(), "src-Generate");
+        File generateFold = new File(Tools.getOutFold(), "src-Generate");
         FileUtils.checkAndCreate(generateFold);
         // 2. current project fold
         File srcFold = new File(generateFold, foldName);
