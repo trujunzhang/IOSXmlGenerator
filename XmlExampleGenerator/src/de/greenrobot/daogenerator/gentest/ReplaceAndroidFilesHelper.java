@@ -22,7 +22,6 @@ public class ReplaceAndroidFilesHelper {
 
         // 2. replace server request's parameter to object-c's format.(put)
 //        new ActitivyReplaceUtils().replacePut(new File(ANDROID_SRC, ACTIVITY_PATH));
-        File home = Tools.getProfile();
     }
 
 }

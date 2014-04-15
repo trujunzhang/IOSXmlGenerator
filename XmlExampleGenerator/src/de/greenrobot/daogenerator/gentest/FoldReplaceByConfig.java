@@ -28,7 +28,6 @@ public class FoldReplaceByConfig {
         LinkedHashMap<String, String> replaceHashMap = replaceConfigLister.replaceHashMap;
 
         new FoldReplaceUtils().replaceAll(outPath, fold, replaceHashMap);
-
     }
 
     private static void check(File outPath) {
