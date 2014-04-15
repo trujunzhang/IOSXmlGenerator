@@ -1,5 +1,6 @@
 package de.greenrobot.daogenerator.config;
 
+import de.greenrobot.daogenerator.utils.Tools;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.JDOMException;
@@ -17,16 +18,23 @@ import java.util.LinkedList;
 public class DaoGeneratorConfig {
 
     private String xmlFold;
+
+    /**
+     * format:"getTravelApplicationById.data"
+     * no contains xml
+     */
     private String xmlName;
 
     public String xmlFile;
 
     public LinkedList<String> ignorTags;
+
     public java.lang.String outDir;
 
     public DaoGeneratorConfig(String pathname) {
         this.getConfig(pathname);
-        this.xmlFile = new File(this.xmlFold, this.xmlName).getAbsolutePath();
+        this.xmlFile = new File(this.xmlFold, String.format("%s.xml", this.xmlName)).getAbsolutePath();
+        this.outDir = Tools.getDaoGeneratorFold(this.xmlName).getAbsolutePath();
     }
 
     private void getConfig(String pathname) {
@@ -55,13 +63,17 @@ public class DaoGeneratorConfig {
                 this.xmlFold = child.getAttribute("value").getValue();
             }
             if (name.equals("xmlName")) {
-                this.xmlName = child.getAttribute("value").getValue();
+                getXmlName(child);
             }
             if (name.equals("ignorTages")) {
                 this.getIgnorTages(child);
             }
             listChildren(child, depth + 1);
         }
+    }
+
+    private void getXmlName(Element child) {
+        this.xmlName = child.getAttribute("value").getValue().replace(".xml", "");
     }
 
     private void getIgnorTages(Element element) {

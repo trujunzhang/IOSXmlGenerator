@@ -114,4 +114,19 @@ public class FileUtils {
             file.delete();
         }
     }
+
+
+    public static void clearFold(File outPath) {
+        if (outPath.exists()) {
+            FileUtils.deleteFold(outPath);
+        }
+        checkAndCreate(outPath);
+    }
+
+    public static void checkAndCreate(File outPath) {
+        if (outPath.exists() == false) {
+            outPath.mkdir();
+        }
+    }
+
 }

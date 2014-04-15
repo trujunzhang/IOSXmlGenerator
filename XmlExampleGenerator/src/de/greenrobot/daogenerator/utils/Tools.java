@@ -9,11 +9,34 @@ public class Tools {
 
     private static String PROJECT_NAME = ".Build_IOSXmlGenerator";
 
+
     public static File getProfile() {
         File home = new File(System.getenv("HOME"), PROJECT_NAME);
-        if (home.exists() == false) {
-            home.mkdir();
-        }
+        FileUtils.checkAndCreate(home);
         return home;
     }
+
+    public static File getConfig() {
+        File config = new File(Tools.getProfile(), "config");
+        FileUtils.checkAndCreate(config);
+        return config;
+    }
+
+    public static File getOutFold() {
+        File out = new File(Tools.getProfile(), "out");
+        FileUtils.checkAndCreate(out);
+        return out;
+    }
+
+    public static File getDaoGeneratorFold(String foldName) {
+        // 1. generate fold
+        File generateFold = new File(Tools.getProfile(), "src-Generate");
+        FileUtils.checkAndCreate(generateFold);
+        // 2. current project fold
+        File srcFold = new File(generateFold, foldName);
+        FileUtils.checkAndCreate(srcFold);
+
+        return srcFold;
+    }
+
 }

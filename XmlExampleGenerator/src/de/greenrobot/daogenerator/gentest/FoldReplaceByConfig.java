@@ -15,9 +15,8 @@ public class FoldReplaceByConfig {
 
     public static void main(String[] args) {
         // 1. get config path
-        File configPath = new File(Tools.getProfile(), "replace.xml");
-        File outPath = new File(Tools.getProfile(), "replace_Out");
-        check(outPath);
+        File configPath = new File(Tools.getConfig(), "replace.xml");
+        File outPath = new File(Tools.getOutFold(), "replace_Out");
 
         // 2. get config data
         FoldReplaceConfig config = new FoldReplaceConfig(configPath.getAbsolutePath());
@@ -29,17 +28,5 @@ public class FoldReplaceByConfig {
         new FoldReplaceUtils().replaceAll(outPath, fold, replaceHashMap);
     }
 
-    private static void check(File outPath) {
-        if (outPath.exists()) {
-            FileUtils.deleteFold(outPath);
-        }
-        createTemp(outPath);
-    }
-
-    private static void createTemp(File outPath) {
-        if (outPath.exists() == false) {
-            outPath.mkdir();
-        }
-    }
 
 }
